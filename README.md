@@ -1,8 +1,10 @@
-# A4 Metro Map
+# Spacevis
 
 Express + React app
 
-Description: Inspect and manipulate data about meteorites. You will have access to a 3d globe representation of over 45k meteorite impact zones over the span of over 600 years.
+Description: Inspect and manipulate data about meteorites. You will have access to a 3d globe representation of over 45k meteorite impact zones over the span of over 1100 years.
+
+861 AD - 2023 AD
 
 ## Structure
 
