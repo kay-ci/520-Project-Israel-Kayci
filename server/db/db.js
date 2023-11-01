@@ -1,21 +1,21 @@
-require('dotenv').config()
+require('dotenv').config();
 const dbUrl = process.env.ATLAS_URI;
-const MongoClient = require('mongodb').MongoClient
-let instance = null
+const MongoClient = require('mongodb').MongoClient;
+let instance = null;
 
 class DB {
   constructor(){
     //instance is the singleton, defined in outer scope
-     if (!instance){
-       instance = this;
-       this.client = new MongoClient(dbUrl);
-       this.db = null;
-       this.collection = null;
-     }
-     return instance;
-   }
+    if (!instance){
+      instance = this;
+      this.client = new MongoClient(dbUrl);
+      this.db = null;
+      this.collection = null;
+    }
+    return instance;
+  }
 
-   async connect(dbname, collName) {
+  async connect(dbname, collName) {
     if (instance.db){
       return;
     }
@@ -30,7 +30,7 @@ class DB {
       await instance.close();
     }
   }
-  async create(isMany) {
+  async create() {
     // if(!isMany) {
     //   return await instance.collection.insertOne(quote);
     // }
@@ -46,4 +46,4 @@ class DB {
     instance = null;
   }
 }
-module.exports = DB 
+module.exports = DB;

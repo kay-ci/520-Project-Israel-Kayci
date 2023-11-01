@@ -28,12 +28,13 @@ app.get('/meteorites', async (req, res) => {
 
 app.post('/meteorites/:meteorite/rate', (req, res) => {
   // To Implement
+  res.send('POST request to the homepage');
 });
 
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.status(404).json({
-      message: 'Page not found'
-  })
-})
+    message: 'Page not found'
+  });
+});
 
 module.exports = app;
