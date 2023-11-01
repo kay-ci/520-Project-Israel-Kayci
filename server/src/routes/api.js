@@ -18,54 +18,28 @@ app.get('/meteorites', async (req, res) => {
     // Data
     const meteoriteData = await db.readAll();
     // Handle queries
-    const minYear = req.query.minYear;
-    const maxYear = req.query.maxYear;
-    const minMass = req.query.minMass;
-    const maxMass = req.query.maxMass;
+    const minYear = parseInt(req.query.minYear);
+    const maxYear = parseInt(req.query.maxYear);
+    const minMass = parseFloat(req.query.minMass);
+    const maxMass = parseFloat(req.query.maxMass);
     const className  = req.query.className;
 
-    // Validation
-    if (isNaN(minYear)){
-      res.status(404).json({message:'Invalid minimum year'});
-    }
-    if ( isNaN(maxYear)){
-      res.status(404).json({message:'Invalid maximum year'});
-    }
-    if (isNaN(minMass) || isNaN(maxMass)){
-      res.status(404).json({message:'Invalid minimum mass, must be a number greater than 0'});
-    }
-    if (isNaN(maxMass)){
-      res.status(404).json({message:'Invalid maximum mass'});
+    // Validate query input
+    if (isNaN(minYear) || isNaN(maxYear)){
+      res.status(400).json({message:'Invalid year range'});
     }
 
-    // Filter data
-    let filteredData;
-    if (minYear){
-      filteredData = meteoriteData.filter(meteorite =>{
-        meteorite.year >= minYear;
-      });
-    }if(maxYear){
-      filteredData = meteoriteData.filter(meteorite =>{
-        meteorite.year <= maxYear;
-      });
-    }if(minMass){
-      filteredData = meteoriteData.filter(meteorite =>{
-        meteorite.mass >= minMass;
-      });
-    }if(maxMass){
-      filteredData = meteoriteData.filter(meteorite =>{
-        meteorite.year <= maxMass;
-      });
-    }if (className) {
-      filteredData = meteoriteData.filter(meteorite =>{
-        meteorite.class.contains(className);
-      });
+    if (isNaN(minMass) || isNaN(maxMass)){
+      res.status(400).json({message:'Invalid mass range'});
     }
+
+    // Filter data by query
+    const filteredData = filter(meteoriteData, minYear, maxYear, minMass, maxMass, className);
+    
     res.json({data: filteredData});
 
   }catch(e){
-    res.status(500).json({error: 'Data could not be read'});
-    res.status(404).json({message:'Quotes could not be retrieved'});
+    res.status(500).json({error: 'Meteorite data could not be read'});
   }
 });
 
@@ -80,4 +54,26 @@ app.use((req, res) => {
   });
 });
 
+/**
+ * @author Kayci Davila
+ * Filter through meteorite data. checks if a query parameter is provided.
+ * (to test)
+ */
+function filter(meteoriteData, minYear, maxYear, minMass, maxMass, className){
+  return meteoriteData.filter(meteorite => {
+
+    // If undefined query not provided
+    // Make sure meteorite.year falls between min year and max year and 
+    const yearCondition = minYear === undefined || 
+      meteorite.year >= minYear && meteorite.year <= maxYear;
+
+    // Make sure meteorite.mass falls between min mass and max mass and 
+    const massCondition = minMass === undefined || 
+      meteorite.mass >= minMass && meteorite.mass <= maxMass;
+
+    const classCondition = className === undefined || meteorite.class.includes(className);
+
+    return yearCondition && massCondition && classCondition;
+  });
+}
 module.exports = app;
