@@ -48,7 +48,11 @@ Core features:
 Potentially cut features:
 - User comment feature 
 - Like and dislike button
+- 
 
 ## Dependencies
 https://resium.reearth.io/
-Why? So we can give the user a better visualization of the points of impact.
+
+Why? So we can give the user a better visualization of the points of impact. 
+And because it looks cool.
+
