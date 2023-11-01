@@ -44,7 +44,7 @@ test-server:
   allow_failure: false
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   script: 
-    - cd client && npm run test
+    - cd server && npm run test
   artifacts:
     expire_in: 2 weeks
     when: always
