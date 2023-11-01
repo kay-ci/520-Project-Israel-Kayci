@@ -51,7 +51,7 @@ test-server:
     reports:
       junit: 
         - junit.xml
-      copertura: coverage/cobertura-coverage.xml
+      cobertura: coverage/cobertura-coverage.xml
 
 
 build-frontend:
