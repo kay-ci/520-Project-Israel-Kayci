@@ -50,7 +50,7 @@ test-server:
     when: always
     reports:
       junit: 
-        - junit.xml
+        - server/junit.xml
 
 build-frontend:
   stage: build
