@@ -4,18 +4,22 @@
   "private": true,
   "proxy": "http://localhost:3000",
   "dependencies": {
+    "@craco/craco": "^7.1.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "cesium": "^1.111.0",
+    "craco-cesium": "^1.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "resium": "^1.17.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -24,18 +28,37 @@
       "react-app/jest"
     ],
     "rules": {
-      "no-console": ["warn", { "allow": ["error"] }],
-      "one-var": ["warn", "never"],
+      "no-console": [
+        "warn",
+        {
+          "allow": [
+            "error"
+          ]
+        }
+      ],
+      "one-var": [
+        "warn",
+        "never"
+      ],
       "no-undef": "warn",
       "prefer-const": "warn",
       "no-extra-parens": "warn",
       "block-scoped-var": "warn",
-      "curly": ["warn", "multi-line"],
+      "curly": [
+        "warn",
+        "multi-line"
+      ],
       "no-await-in-loop": "warn",
-      "no-cond-assign": ["error", "always"],
+      "no-cond-assign": [
+        "error",
+        "always"
+      ],
       "no-debugger": "warn",
       "default-case": "warn",
-      "dot-location": ["warn", "object"],
+      "dot-location": [
+        "warn",
+        "object"
+      ],
       "eqeqeq": "warn",
       "no-alert": "warn",
       "no-eq-null": "warn",
@@ -45,20 +68,54 @@
       "no-loop-func": "warn",
       "no-multi-str": "warn",
       "no-self-compare": "warn",
-      "strict": ["warn", "global"],
+      "strict": [
+        "warn",
+        "global"
+      ],
       "no-lonely-if": "warn",
-
-      "array-bracket-spacing": ["error", "never"],
-      "array-bracket-newline": ["error", "consistent"],
-      "indent": ["error", 2],
-      "comma-spacing": ["error", { "before": false, "after": true }],
-      "comma-style": ["error", "last"],
-      "brace-style": ["error"],
-      "max-len": ["error", 100],
+      "array-bracket-spacing": [
+        "error",
+        "never"
+      ],
+      "array-bracket-newline": [
+        "error",
+        "consistent"
+      ],
+      "indent": [
+        "error",
+        2
+      ],
+      "comma-spacing": [
+        "error",
+        {
+          "before": false,
+          "after": true
+        }
+      ],
+      "comma-style": [
+        "error",
+        "last"
+      ],
+      "brace-style": [
+        "error"
+      ],
+      "max-len": [
+        "error",
+        100
+      ],
       "no-inline-comments": "error",
-      "jsx-quotes": ["error", "prefer-double"],
+      "jsx-quotes": [
+        "error",
+        "prefer-double"
+      ],
       "no-tabs": "error",
-      "quotes": ["error", "single", {"allowTemplateLiterals": true}],
+      "quotes": [
+        "error",
+        "single",
+        {
+          "allowTemplateLiterals": true
+        }
+      ],
       "space-infix-ops": "error",
       "space-unary-ops": "error",
       "semi": "error",
