@@ -42,17 +42,16 @@ stages:
 test-server:
   stage: test
   allow_failure: false
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   script: 
-    - cd client && npm run test >> results.txt
-  only: 
-    refs:
-      - main
-      - staging
+    - cd client && npm run test
   artifacts:
     expire_in: 2 weeks
-    when: on_success
-    paths:
-      - client/results.txt
+    when: always
+    reports:
+      junit: 
+        - junit.xml
+      copertura: coverage/cobertura-coverage.xml
 
 
 build-frontend:
