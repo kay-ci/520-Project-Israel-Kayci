@@ -1,27 +1,70 @@
 const express = require('express');
 const app = express();
-let DB = require('../db/db');
-let db = new DB();
-app.use(express.static('../../client/public/')); 
+const DB = require('../db/db');
+const db = new DB();
+app.use(express.static('../../client/build/')); 
 app.use(express.json());
 
 app.get('/', (req, res) => {
   try{
     res.json({message: 'Hello World'});
   }catch(e){
-    console.dir(e);
     res.status(404).json({message:'Root not fetched'});
   }
 });
 
 app.get('/meteorites', async (req, res) => {
   try{
-    const allMeteorites = await db.readAll();
-    // Add filtering
-    // Add queries
-    res.json(allMeteorites);
+    // Data
+    const meteoriteData = await db.readAll();
+    // Handle queries
+    const minYear = req.query.minYear;
+    const maxYear = req.query.maxYear;
+    const minMass = req.query.minMass;
+    const maxMass = req.query.maxMass;
+    const className  = req.query.className;
+
+    // Validation
+    if (isNaN(minYear)){
+      res.status(404).json({message:'Invalid minimum year'});
+    }
+    if ( isNaN(maxYear)){
+      res.status(404).json({message:'Invalid maximum year'});
+    }
+    if (isNaN(minMass) || isNaN(maxMass)){
+      res.status(404).json({message:'Invalid minimum mass, must be a number greater than 0'});
+    }
+    if (isNaN(maxMass)){
+      res.status(404).json({message:'Invalid maximum mass'});
+    }
+
+    // Filter data
+    let filteredData;
+    if (minYear){
+      filteredData = meteoriteData.filter(meteorite =>{
+        meteorite.year >= minYear;
+      });
+    }if(maxYear){
+      filteredData = meteoriteData.filter(meteorite =>{
+        meteorite.year <= maxYear;
+      });
+    }if(minMass){
+      filteredData = meteoriteData.filter(meteorite =>{
+        meteorite.mass >= minMass;
+      });
+    }if(maxMass){
+      filteredData = meteoriteData.filter(meteorite =>{
+        meteorite.year <= maxMass;
+      });
+    }if (className) {
+      filteredData = meteoriteData.filter(meteorite =>{
+        meteorite.class.contains(className);
+      });
+    }
+    res.json({data: filteredData});
+
   }catch(e){
-    console.dir(e);
+    res.status(500).json({error: 'Data could not be read'});
     res.status(404).json({message:'Quotes could not be retrieved'});
   }
 });
