@@ -3,10 +3,10 @@
  * seed.js - Inserts all the data from our CSV dataset into the mongo database.
  */
 const fs = require('fs/promises');
-const DB = require('../src/db/db.js');
+const DB = require('../db/db.js');
 const csv = require('csv-parse');
 
-let meteorites = [];
+const meteorites = [];
 
 /**
  * Inserts a list of meteorite objects to the db
