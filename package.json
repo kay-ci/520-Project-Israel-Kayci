@@ -5,18 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node bin/www",
-    "test": "jest",
     "build": "cd client && npm install && npm run build && cd ../server && npm install"
   },
   "author": "Kayci Davila & Israel Aristide",
-  "license": "ISC",
-  "dependencies": {
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "mongodb": "^6.2.0"
-  },
-  "devDependencies": {
-    "jest": "^29.7.0",
-    "supertest": "^6.3.3"
-  }
+  "license": "ISC"
 }
