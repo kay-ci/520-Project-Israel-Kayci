@@ -51,6 +51,9 @@ test-server:
     reports:
       junit: 
         - server/junit.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: server/coverage/cobertura-coverage.xml
 
 build-frontend:
   stage: build

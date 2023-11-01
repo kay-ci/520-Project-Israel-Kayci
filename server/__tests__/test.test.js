@@ -1,3 +1,5 @@
+const letterCount = require('../src/routes/letters.js');
+
 test('maja contains 2 a',  () => {
-  expect(2).toEqual(2);
+  expect(letterCount('a', 'maja')).toEqual(2);
 });
