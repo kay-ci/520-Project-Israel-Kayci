@@ -8,5 +8,8 @@
     "build": "cd client && npm install && npm run build && cd ../server && npm install"
   },
   "author": "Kayci Davila & Israel Aristide",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
 }
