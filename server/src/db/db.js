@@ -36,6 +36,9 @@ class DB {
     // }
     // return await instance.collection.insertMany(quote);
   }
+  async dropAll(){
+    await instance.collection.drop();
+  }
   
   async readAll() {
     return await instance.collection.find().toArray();
