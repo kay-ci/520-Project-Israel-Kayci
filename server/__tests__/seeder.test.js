@@ -4,7 +4,7 @@ const fs = require('fs/promises');
 const csv = require('csv-parse');
 
 
-test('onParseFinish returns the right data and the right amount', async () => {
+test('onParseFinish returns the right data and the right amount from file', async () => {
 
   const file = await fs.readFile('./src/utils/data/meteorites-subset.csv');
   const expected = [
@@ -46,6 +46,32 @@ test('onParseFinish returns the right data and the right amount', async () => {
     const meteors = onParseFinish(recs);
 
     expect(meteors.length).toEqual(4);
+    expect(meteors).toEqual(expected);
+
+  });
+
+});
+
+test('onFinishParse filters correctly', () => {
+
+  // CSV contains two rows with NA values and one with an empty whitespace value
+  // eslint-disable-next-line max-len, no-useless-escape
+  const file = 'Zubkovsky,31357,Valid,L6, ,Found,2003,49.78917,41.5046,\"(49.78917, 41.5046)\"\nZubkovsky,31357,Valid,L6,NA,Found,2003,49.78917,41.5046,\"(49.78917, 41.5046)\"\nZubkovsky,313257,Valid,L6,2301,Found,2003,NA,NA,\"(NA, NA)\"\nZulu Queen,30414,Valid,L3.7,200,Found,1976,33.98333,-115.68333,"(33.98333, -115.68333)"';
+  const expected = [
+    {
+      id: '30414',
+      name: 'Zulu Queen',
+      class: 'L3.7',
+      mass: '200',
+      year: '1976',
+      geolocation: { type: 'Point', coordinates: ['-115.68333', '33.98333'] }
+    }
+  ]; 
+
+  csv.parse(file, (err, recs) => {
+
+    const meteors = onParseFinish(recs);
+    expect(meteors.length).toEqual(1);
     expect(meteors).toEqual(expected);
 
   });
