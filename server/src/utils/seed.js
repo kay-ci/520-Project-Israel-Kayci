@@ -15,17 +15,14 @@ const meteorites = [];
 async function initDb(meteorites) {
 
   let db;
-
   try {
-
     db = new DB();
     await db.connect('space', 'meteorites');
 
-    db.dropAll();
-
-    const num = await db.create(meteorites, true);
-    console.log(`Inserted ${num.insertedCount} quotes `);
-
+    if(await db.collection.count() === 0){
+      const num = await db.create(meteorites, true);
+      console.log(`Inserted ${num.insertedCount} meteorites `);
+    }
   } catch (e) {
 
     console.error('could not seed :(');
@@ -52,7 +49,7 @@ function isEmptyOrSpaces(str){
   return str === null || str.match(/^ *$/) !== null;
 }
 
-fs.readFile('./data/meteorites.csv').then(file => {
+fs.readFile('./src/utils/data/meteorites.csv').then(file => {
 
   function onParseFinish(err, records) {
 
