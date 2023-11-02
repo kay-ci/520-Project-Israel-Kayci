@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
   }
 });
 
-app.get('/meteorites', async (req, res, next) => {
+app.get('/meteorites', async (req, res) => {
   try{
     // Data
     const meteoriteData = await db.readAll();
