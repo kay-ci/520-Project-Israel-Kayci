@@ -24,7 +24,6 @@ async function initDb(meteorites) {
       console.log(`Inserted ${num.insertedCount} meteorites `);
     }
 
-
   } catch (e) {
 
     console.error('could not seed :(');
