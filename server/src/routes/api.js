@@ -28,14 +28,14 @@ app.get('/meteorites', async (req, res) => {
     if(minYear !== undefined || maxYear !== undefined){
 
       if (isNaN(parseInt(minYear)) || isNaN(parseInt(maxYear))){
-        res.status(400).json({message:'Invalid year range'});
+        return res.status(400).json({message:'Invalid year range'});
       }
     }
     
     if(minMass !== undefined || maxMass !== undefined){
 
       if (isNaN(parseFloat(minMass)) || isNaN(parseFloat(maxMass))){
-        res.status(400).json({message:'Invalid mass range'});
+        return res.status(400).json({message:'Invalid mass range'});
       }
     }
 
