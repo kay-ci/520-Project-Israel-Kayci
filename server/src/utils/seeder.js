@@ -19,7 +19,7 @@ async function initDb(meteorites) {
     db = new DB();
     await db.connect('space', 'meteorites');
 
-    if(await db.collection.count() === 0){
+    if (await db.collection.count() === 0){
       const num = await db.create(meteorites, true);
       console.log(`Inserted ${num.insertedCount} meteorites`);
     }

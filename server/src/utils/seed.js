@@ -1,8 +1,8 @@
 const csv = require('csv-parse');
 const fs = require('fs/promises');
-const { initDb, onParseFinish } = require('../src/utils/seeder.js');
+const { initDb, onParseFinish } = require('./seeder.js');
 
-fs.readFile('./data/meteorites.csv').then(file => {
+fs.readFile('./server/src/utils/data/meteorites.csv').then(file => {
   
   // parse the CSV data
   csv.parse(file, (err, records) => {

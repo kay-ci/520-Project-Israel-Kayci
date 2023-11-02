@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 let DB = require('../db/db');
 let db = new DB();
-app.use(express.static('../../client/public/')); 
+app.use(express.static('../../../client/build')); 
 app.use(express.json());
 
 app.get('/', (req, res) => {
