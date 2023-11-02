@@ -18,21 +18,25 @@ app.get('/meteorites', async (req, res) => {
     // Data
     const meteoriteData = await db.readAll();
     // Handle queries
-    const minYear = req.query.minYear;
-    const maxYear = req.query.maxYear;
-    const minMass = req.query.minMass;
-    const maxMass = req.query.maxMass;
+    let minYear = req.query.minYear;
+    let maxYear = req.query.maxYear;
+    let minMass = req.query.minMass;
+    let maxMass = req.query.maxMass;
     const className  = req.query.className;
 
     // Validate query input
     if(minYear !== undefined || maxYear !== undefined){
+      minYear = parseInt(minYear);
+      maxYear = parseInt(maxYear);
 
-      if (isNaN(parseInt(minYear)) || isNaN(parseInt(maxYear))){
+      if (isNaN(minYear) || isNaN(maxYear)){
         return res.status(400).json({message:'Invalid year range'});
       }
     }
     
     if(minMass !== undefined || maxMass !== undefined){
+      minMass = parseFloat(minMass);
+      maxMass = parseFloat(maxMass);
 
       if (isNaN(parseFloat(minMass)) || isNaN(parseFloat(maxMass))){
         return res.status(400).json({message:'Invalid mass range'});
@@ -66,17 +70,16 @@ app.use((req, res) => {
  * (to test)
  */
 function filter(meteoriteData, minYear, maxYear, minMass, maxMass, className){
-  
   return meteoriteData.filter(meteorite => {
 
     // If undefined query not provided
     // Make sure meteorite.year falls between min year and max year and 
     const yearCondition = minYear === undefined || 
-      meteorite.year >= minYear && meteorite.year <= maxYear;
+      parseInt(meteorite.year) >= minYear && meteorite.year <= maxYear;
 
     // Make sure meteorite.mass falls between min mass and max mass and 
     const massCondition = minMass === undefined || 
-      meteorite.mass >= minMass && meteorite.mass <= maxMass;
+      parseFloat(meteorite.mass) >= minMass && meteorite.mass <= maxMass;
 
     const classCondition = className === undefined || meteorite.class.includes(className);
 
