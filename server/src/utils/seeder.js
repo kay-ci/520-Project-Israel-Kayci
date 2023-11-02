@@ -19,10 +19,10 @@ async function initDb(meteorites) {
     db = new DB();
     await db.connect('space', 'meteorites');
 
-    db.dropAll();
-
-    const num = await db.create(meteorites, true);
-    console.log(`Inserted ${num.insertedCount} quotes `);
+    if(await db.collection.count() === 0){
+      const num = await db.create(meteorites, true);
+      console.log(`Inserted ${num.insertedCount} meteorites `);
+    }
 
   } catch (e) {
 
