@@ -21,7 +21,7 @@ async function initDb(meteorites) {
 
     if(await db.collection.count() === 0){
       const num = await db.create(meteorites, true);
-      console.log(`Inserted ${num.insertedCount} meteorites `);
+      console.log(`Inserted ${num.insertedCount} meteorites`);
     }
 
   } catch (e) {
@@ -65,7 +65,7 @@ function onParseFinish(records) {
   records.filter(rec => {
 
     // Checks every record and filters out ones with empty or NA values
-    for (const val in rec) {
+    for (const val of rec) {
 
       if (isEmptyOrSpaces(val)) {
         return false;
