@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const endpoint = require('../src/routes/api.js');
+//const endpoint = require('../src/routes/api.js');
 const request = require('supertest');
 const axios = require('axios');
 jest.mock('axios');
