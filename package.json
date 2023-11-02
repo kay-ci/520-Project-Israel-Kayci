@@ -4,7 +4,7 @@
   "description": "Express + React app",
   "main": "index.js",
   "scripts": {
-    "start": "node bin/www",
+    "start": "node server/bin/www",
     "build": "cd client && npm install && npm run build && cd ../server && npm install"
   },
   "author": "Kayci Davila & Israel Aristide",
