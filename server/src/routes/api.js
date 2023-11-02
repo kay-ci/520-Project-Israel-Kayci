@@ -13,29 +13,35 @@ app.get('/', (req, res) => {
   }
 });
 
-app.get('/meteorites', async (req, res) => {
+app.get('/meteorites', async (req, res, next) => {
   try{
     // Data
     const meteoriteData = await db.readAll();
     // Handle queries
-    const minYear = parseInt(req.query.minYear);
-    const maxYear = parseInt(req.query.maxYear);
-    const minMass = parseFloat(req.query.minMass);
-    const maxMass = parseFloat(req.query.maxMass);
+    const minYear = req.query.minYear;
+    const maxYear = req.query.maxYear;
+    const minMass = req.query.minMass;
+    const maxMass = req.query.maxMass;
     const className  = req.query.className;
 
     // Validate query input
-    if (isNaN(minYear) || isNaN(maxYear)){
-      res.status(400).json({message:'Invalid year range'});
-    }
+    if(minYear !== undefined || maxYear !== undefined){
 
-    if (isNaN(minMass) || isNaN(maxMass)){
-      res.status(400).json({message:'Invalid mass range'});
+      if (isNaN(parseInt(minYear)) || isNaN(parseInt(maxYear))){
+        res.status(400).json({message:'Invalid year range'});
+      }
+    }
+    
+    if(minMass !== undefined || maxMass !== undefined){
+
+      if (isNaN(parseFloat(minMass)) || isNaN(parseFloat(maxMass))){
+        res.status(400).json({message:'Invalid mass range'});
+      }
     }
 
     // Filter data by query
     const filteredData = filter(meteoriteData, minYear, maxYear, minMass, maxMass, className);
-    
+
     res.json({data: filteredData});
 
   }catch(e){
@@ -60,6 +66,7 @@ app.use((req, res) => {
  * (to test)
  */
 function filter(meteoriteData, minYear, maxYear, minMass, maxMass, className){
+  
   return meteoriteData.filter(meteorite => {
 
     // If undefined query not provided
