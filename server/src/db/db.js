@@ -30,11 +30,11 @@ class DB {
       await instance.close();
     }
   }
-  async create() {
-    // if(!isMany) {
-    //   return await instance.collection.insertOne(quote);
-    // }
-    // return await instance.collection.insertMany(quote);
+  async create(meteorite, isMany) {
+    if(!isMany) {
+      return await instance.collection.insertOne(meteorite);
+    }
+    return await instance.collection.insertMany(meteorite);
   }
   async dropAll(){
     await instance.collection.drop();
