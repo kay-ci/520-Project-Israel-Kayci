@@ -39,9 +39,6 @@ class DB {
   async dropAll(){
     await instance.collection.drop();
   }
-  async dropAll(){
-    await instance.collection.drop();
-  }
   
   async readAll() {
     return await instance.collection.find().toArray();
