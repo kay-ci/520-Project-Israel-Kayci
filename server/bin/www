@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const app = require('../src/routes/api.js');
-const DB = require('../src/db/db.js');
+const app = require('../src/routes/api');
+const DB = require('../src/db/db');
 const port = process.env.PORT || 3000;
 
 (async () => {

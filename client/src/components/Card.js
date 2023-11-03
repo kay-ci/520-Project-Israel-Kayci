@@ -5,7 +5,7 @@ function Card(){
   const [meteors, setMeteors] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/meteorites').then(res => {
+    fetch('/meteorites').then(res => {
       if (res.ok) {
         return res.json();
       } 
@@ -16,7 +16,7 @@ function Card(){
         return <p>Meteor: {x.name}, mass: {x.mass}</p>;
       }));
     });
-  }, [setMeteors]);
+  }, []);
 
   return(
     <div className="card-div">

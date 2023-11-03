@@ -10,8 +10,11 @@
   "author": "Kayci Davila & Israel Aristide",
   "license": "ISC",
   "dependencies": {
-    "cesium": "^1.111.0",
     "dotenv": "^16.3.1",
-    "resium": "^1.17.2"
+    "resium": "^1.17.2",
+    "cesium": "^1.111.0"
+  },
+  "devDependencies": {
+    "supertest": "^6.3.3"
   }
 }
