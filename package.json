@@ -1,0 +1,20 @@
+{
+  "name": "520-project-israel-kayci",
+  "version": "1.0.0",
+  "description": "Express + React app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/bin/www",
+    "build": "cd client && npm install && npm run build && cd ../server && npm install"
+  },
+  "author": "Kayci Davila & Israel Aristide",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "resium": "^1.17.2",
+    "cesium": "^1.111.0"
+  },
+  "devDependencies": {
+    "supertest": "^6.3.3"
+  }
+}
