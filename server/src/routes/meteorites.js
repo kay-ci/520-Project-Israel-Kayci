@@ -86,11 +86,6 @@ router.use((req, res) => {
  * Filter through meteorite data. checks if a query parameter is provided.
  * (to test)
  */
-/** 
- * TODO: This does not work correctly sometimes, 
- * maybe swrite some tests and make sure its correctly flitering. 
- * Sometimes it returns empty when it should not!!
- */
 function filter(meteoriteData, minYear, maxYear, minMass, maxMass, className){
   return meteoriteData.filter(meteorite => {
 
