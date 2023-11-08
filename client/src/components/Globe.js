@@ -7,7 +7,7 @@ const pointGraphics = { pixelSize: 10 };
 function Globe(){
   return (
     <div className="globe-div">
-      <Viewer >
+      <Viewer className="viewer">
         <Entity position={position} point={pointGraphics} />
       </Viewer>
     </div>
