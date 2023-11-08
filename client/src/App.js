@@ -1,11 +1,11 @@
 import './App.css';
 import Globe from './components/Globe';
-import Results from './components/Results';
+import UserBar from './components/UserBar';
 
 function App() {
   return (
     <div className="app">
-      <Results/>
+      <UserBar/>
       <Globe/>
     </div>
   );
