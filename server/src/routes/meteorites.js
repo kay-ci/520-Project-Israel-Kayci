@@ -19,32 +19,34 @@ router.get('/', async (req, res) => {
     const page = parseInt(req.query.page ? req.query.page : 1);
 
     const className  = req.query.className;
-
-    // Validate query input
-    if(
-      (minYear !== undefined || maxYear !== undefined) &&
-      !(minYear > maxYear) &&
-      !(minYear < 0 || maxYear < 0)
-    ){
+    
+    if (minYear !== undefined || maxYear !== undefined) {
       minYear = parseInt(minYear);
       maxYear = parseInt(maxYear);
-
-      if (isNaN(minYear) || isNaN(maxYear)){
+    
+      // Validate query input
+      if (
+        isNaN(minYear) || isNaN(maxYear) ||
+        minYear > maxYear ||
+        (minYear < 0 || maxYear < 0)
+      ) {
         return res.status(400).json({code: 400, message:'Invalid year range'});
       }
     }
-    
-    if(
-      (minMass !== undefined || maxMass !== undefined) &&
-      !(minMass > maxMass) &&
-      !(minMass < 0 || maxMass < 0)
-    ){
+
+    if (minMass !== undefined || maxMass !== undefined) {
       minMass = parseFloat(minMass);
       maxMass = parseFloat(maxMass);
+    
 
-      if (isNaN(parseFloat(minMass)) || isNaN(parseFloat(maxMass))){
+      if (
+        isNaN(parseFloat(minMass)) || isNaN(parseFloat(maxMass)) ||
+        minMass > maxMass ||
+        minMass < 0 || maxMass < 0
+      ) {
         return res.status(400).json({code: 400, message:'Invalid mass range'});
       }
+
     }
 
     // Filter data by query
@@ -83,6 +85,11 @@ router.use((req, res) => {
  * @author Kayci Davila
  * Filter through meteorite data. checks if a query parameter is provided.
  * (to test)
+ */
+/** 
+ * TODO: This does not work correctly sometimes, 
+ * maybe swrite some tests and make sure its correctly flitering. 
+ * Sometimes it returns empty when it should not!!
  */
 function filter(meteoriteData, minYear, maxYear, minMass, maxMass, className){
   return meteoriteData.filter(meteorite => {
