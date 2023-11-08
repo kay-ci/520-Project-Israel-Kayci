@@ -1,19 +1,9 @@
 const express = require('express');
-const app = express();
+const router = express.Router();
 const DB = require('../db/db');
 const db = new DB();
-app.use(express.static('../../client/build/')); 
-app.use(express.json());
 
-app.get('/', (req, res) => {
-  try{
-    res.json({message: 'Hello World'});
-  }catch(e){
-    res.status(404).json({message:'Root not fetched'});
-  }
-});
-
-app.get('/meteorites', async (req, res) => {
+router.get('/', async (req, res) => {
   try{
     // Data
     const meteoriteData = await db.readAll();
@@ -53,12 +43,12 @@ app.get('/meteorites', async (req, res) => {
   }
 });
 
-app.post('/meteorites/:meteorite/rate', (req, res) => {
+router.post('/:meteorite/rate', (req, res) => {
   // To Implement
   res.send('POST request to the homepage');
 });
 
-app.use((req, res) => {
+router.use((req, res) => {
   res.status(404).json({
     message: 'Page not found'
   });
@@ -86,4 +76,4 @@ function filter(meteoriteData, minYear, maxYear, minMass, maxMass, className){
     return yearCondition && massCondition && classCondition;
   });
 }
-module.exports = app;
+module.exports = router;

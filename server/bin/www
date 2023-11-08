@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const app = require('../src/routes/api');
+const app = require('../api.js');
 const DB = require('../src/db/db');
 const port = process.env.PORT || 3000;
 
