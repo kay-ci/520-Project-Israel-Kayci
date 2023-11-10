@@ -10,7 +10,7 @@ function Main() {
   return (
     <section className="main">
       <UserBar meteors={meteors} setMeteors={setMeteors}/>
-      <Globe/>
+      <Globe meteors={meteors}/>
     </section>
   );
 }
