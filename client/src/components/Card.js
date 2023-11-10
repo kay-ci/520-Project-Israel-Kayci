@@ -1,10 +1,10 @@
 
 function Card({meteor}){
   return(
-    <section className="card-div">
+    <div className="card-div">
       <p>{meteor.name}</p>
       <p>Mass: {meteor.mass}</p>
-    </section>
+    </div>
   );
 }
 export default Card;
