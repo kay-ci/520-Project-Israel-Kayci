@@ -16,4 +16,5 @@ function Globe({meteors}){
     </div>
   );
 }
+
 export default Globe;
