@@ -13,4 +13,5 @@ function Globe(){
     </div>
   );
 }
+
 export default Globe;

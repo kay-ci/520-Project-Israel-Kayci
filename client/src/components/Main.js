@@ -1,10 +1,15 @@
 import Globe from './Globe';
 import UserBar from './UserBar';
 
+import {useState} from 'react';
+
 function Main() {
+
+  const [meteors, setMeteors] = useState([]);
+
   return (
     <section className="main">
-      <UserBar/>
+      <UserBar meteors={meteors} setMeteors={setMeteors}/>
       <Globe/>
     </section>
   );
