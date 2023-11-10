@@ -6,6 +6,7 @@
   "scripts": {
     "start": "cd server && node bin/www",
     "build": "cd client && npm install && npm run build && cd ../server && npm install",
+    "dev": "cd server && nodemon bin/www",
     "seed": "node server/src/utils/seed.js"
   },
   "author": "Kayci Davila & Israel Aristide",
