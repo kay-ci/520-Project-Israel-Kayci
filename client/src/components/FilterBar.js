@@ -1,3 +1,4 @@
+
 function FilterBar({ sendQuery }){
 
   function createQuery() {
@@ -8,10 +9,11 @@ function FilterBar({ sendQuery }){
     const maxMass = document.getElementById('maxMass');
 
     sendQuery({
-      minYear:minYear,
-      maxYear:maxYear, 
-      minMass:minMass, 
-      maxMass:maxMass
+      minYear:minYear.value,
+      maxYear:maxYear.value, 
+      minMass:minMass.value, 
+      maxMass:maxMass.value,
+      page:1
     });
 
   }
