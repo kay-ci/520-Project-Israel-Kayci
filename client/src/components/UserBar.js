@@ -5,22 +5,37 @@ import {useRef} from 'react';
 
 function UserBar( {meteors, setMeteors } ){
 
+  // We want to keep track of this but not necesarily re-render when it's changed
+  // We use useRef to achieve this.
   const lastQuery = useRef({
     minYear:0, maxYear:2023, 
     minMass:0, maxMass:100000,
     page:1
   });
 
+  /**
+   * Goes to the next page of the search results
+   * @author Israel Aristide
+   */
   function nextPage() {
     const queryParams = {...lastQuery.current, page:lastQuery.current.page + 1};
     sendQuery(queryParams);
   }
 
+  /**
+   * Goes to the previous page of the search results
+   * @author Israel Aristide
+   */
   function lastPage() {
     const queryParams = {...lastQuery.current, page:lastQuery.current.page - 1};
     sendQuery(queryParams);
   }
 
+  /**
+   * Creates a fetch request to the API using the filter params as input
+   * @author Israel Aristide
+   * @param {*} params 
+   */
   function sendQuery(params) {
     
     lastQuery.current = params;
@@ -37,7 +52,7 @@ function UserBar( {meteors, setMeteors } ){
       return Promise.reject('Could not fetch meteorites');
 
     }).then(json => {
-      setMeteors(json.data.splice(0, 20));
+      setMeteors(json.data);
     });
 
   }
@@ -51,4 +66,5 @@ function UserBar( {meteors, setMeteors } ){
     </div>
   );
 }
+
 export default UserBar;

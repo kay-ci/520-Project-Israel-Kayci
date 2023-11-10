@@ -1,6 +1,15 @@
 
+/**
+ * Contains all the filtering options.
+ * @author Israel Aristide
+ */
 function FilterBar({ sendQuery }){
 
+  /**
+   * Gathers the filter params input by the user and sends the query using the
+   * sendQuery function from the UserBar component.
+   * @author Israel Aristide
+   */
   function createQuery() {
 
     const minYear = document.getElementById('minYear');
@@ -18,6 +27,12 @@ function FilterBar({ sendQuery }){
 
   }
 
+  /**
+   * Runs event listener used to change the associated label whenever
+   * a range input object is changed.
+   * @author Israel Aristide
+   * @param {*} event 
+   */
   function onRangeChange(event) {
 
     const label = document.getElementById(`${event.target.id}Label`);
