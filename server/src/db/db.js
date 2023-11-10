@@ -4,15 +4,22 @@ const MongoClient = require('mongodb').MongoClient;
 let instance = null;
 
 class DB {
-  constructor(){
-    //instance is the singleton, defined in outer scope
-    if (!instance){
+
+  constructor() {
+
+    // instance is the singleton, defined in outer scope
+    if (!instance) {
+
       instance = this;
       this.client = new MongoClient(dbUrl);
       this.db = null;
       this.collection = null;
+      this.dbCache = null;
+
     }
+
     return instance;
+
   }
 
   async connect(dbname, collName) {
@@ -26,6 +33,7 @@ class DB {
       await instance.client.db(dbname).command({ ping: 1 });
       console.log('Successfully connected to MongoDB database ' + dbname);
       instance.collection = await instance.db.collection(collName);
+      instance.dbCache = instance.readAll();
     } catch{
       await instance.close();
     }
@@ -36,12 +44,18 @@ class DB {
     }
     return await instance.collection.insertMany(meteorite);
   }
-  async dropAll(){
+
+  async dropAll() {
     await instance.collection.drop();
   }
   
   async readAll() {
     return await instance.collection.find().toArray();
+  }
+
+  /** TODO: Revisit this implementation and see if it can be done better. */
+  async readAllCache() {
+    return instance.dbCache;
   }
 
   async close() {
