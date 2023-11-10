@@ -54,31 +54,3 @@ describe('pagination works as expected', () => {
   });
 
 });
-
-
-// expect(pages.page).toEqual(['one', 'two']);
-
-// pages = paginate(
-//   ['one', 'two', 'three', 'four', 'five', 'six'],
-//   2,
-//   2
-// );
-
-// expect(pages.page).toEqual(['three', 'four']);
-
-// pages = paginate(
-//   ['one', 'two', 'three', 'four', 'five', 'six'],
-//   2,
-//   3
-// );
-
-// expect(pages.page).toEqual(['five', 'six']);
-
-
-// pages = paginate(
-//   ['one', 'two', 'three', 'four', 'five', 'six'],
-//   2,
-//   4
-// );
-
-// expect(pages.page).toEqual([]);
