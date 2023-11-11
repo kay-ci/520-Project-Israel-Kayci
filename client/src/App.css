@@ -30,10 +30,11 @@ body{
   display: flex;
   width: 30%;
   height: 100%;
+  flex-direction: column;
 }
 
 .filter-bar{
-
+  background-color: grey;
 }
 
 .results{
@@ -80,7 +81,7 @@ body{
 }
 
 .my-footer{
-
+  background-color: grey;
 }
 
 @media (prefers-reduced-motion: no-preference) {
