@@ -59,3 +59,42 @@ Note Taker: Israel
 ## Plan for improvement
 1. Have more meetings and be consistent
 2. Plan task distribution better
+
+# November 9 2023, Thursday, in call
+Attendees: Kayci, Israel
+Note Taker: Kayci
+
+## Problems
+No problems.
+
+## Discussion
+We discussed the elements that are left to do for our client side.
+Israel will handle the filtering and fetch all data which should update the Result component.
+I will handle clicking on a card and the interaction it will have with the Globe component. I will also handle the css.
+We are estimating to finish this around Sunday evening.
+
+
+# November 11 2023, Saturdat, on call
+Attendees: Kayci, Israel
+Note taker: Israel
+
+## Problems
+None 
+
+## Discussion
+
+TODO:
+1. Modify filtering view to make it easier to use
+2. Clicking next page should zoom out in the globe view
+3. Fix all the tests and add more
+4. MOBILE COMPAT!!! **Important**
+5. Fluff (Text to explain the goal, names, decoration, info, attributions)
+
+Things to think about:
+1. Make points on the map more distinguisable
+2. Figure out how to implelemt the rating system with spam proofing
+3. Color palette
+4. Removing bottom widgets in the cesium view
+
+
+
