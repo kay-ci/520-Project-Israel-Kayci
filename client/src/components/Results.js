@@ -8,7 +8,9 @@ function Results( { meteors, handleMeteoriteZoom } ){
         {meteors.map(meteor => 
           <Card key={meteor.name} 
             meteor = {meteor} 
-            handleMeteoriteZoom={()=>handleMeteoriteZoom(meteor)}/>)}
+            handleMeteoriteZoom={()=>{
+              handleMeteoriteZoom(meteor);
+            }}/>)}
       </div>
     );
   }

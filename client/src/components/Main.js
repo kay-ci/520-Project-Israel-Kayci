@@ -14,7 +14,8 @@ function Main() {
         parseFloat(meteorite.geolocation.coordinates[1]), 
         300
       ),
-      duration: 5
+      duration: 5,
+      onComplete: () => setFlyToProps(null),
     });
   };
   return (
