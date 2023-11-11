@@ -30,10 +30,11 @@ body{
   display: flex;
   width: 30%;
   height: 100%;
+  flex-direction: column;
 }
 
 .filter-bar{
-
+  background-color: grey;
 }
 
 .results{
@@ -44,6 +45,11 @@ body{
   width: 100%;
   margin-right: 10px; 
   overflow: scroll;
+  overflow-x: hidden;
+}
+
+li{
+  list-style-type: none;
 }
 
 .card-div{
@@ -80,7 +86,7 @@ body{
 }
 
 .my-footer{
-
+  background-color: grey;
 }
 
 @media (prefers-reduced-motion: no-preference) {
