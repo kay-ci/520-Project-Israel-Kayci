@@ -48,6 +48,10 @@ body{
   overflow-x: hidden;
 }
 
+li{
+  list-style-type: none;
+}
+
 .card-div{
   border-radius: 25px;
   margin: 10px;
