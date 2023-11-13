@@ -9,6 +9,27 @@
   justify-content: center;
 }
 
+.bottom-filters * {
+  flex: 1;
+}
+
+.bottom-filters-text {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.bottom-filters-text p {
+  flex: 1;
+  margin: 0px;
+  font-size: 10px;
+}
+
+.search-filter {
+  margin: 5px;
+  padding: 10px;
+}
+
 .year-select {
   display: flex;
   justify-content: space-evenly;

@@ -90,7 +90,10 @@ function FilterBar({ sendQuery }){
       />  
       <label htmlFor="maxYear" id="maxYearLabel">800</label>
       */}
-
+      <div className="bottom-filters-text">
+        <p>Year</p>
+        <p>Mass (g)</p>
+      </div>
       <div className="bottom-filters">
         <div className="year-select">
           <YearSelect 
