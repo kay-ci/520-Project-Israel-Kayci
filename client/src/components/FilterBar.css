@@ -1,0 +1,42 @@
+.filter-bar {
+  display: flex;
+  flex-direction: column;
+}
+
+.bottom-filters {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.year-select {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.mass-select-elem input {
+  max-width: 50px;
+  padding: 5px;
+}
+
+.year-select-elem select { 
+  max-width: 61px;
+  width: 100%;
+  padding: 5px;
+}
+
+.year-select-elem * {
+  margin: 5px;
+}
+
+.mass-select-elem * {
+  margin: 5px;
+}
+
+.mass-select {
+  display: flex;
+}
+
+.bottom-filters label,.bottom-filters p {
+  font-size: 10px;
+}

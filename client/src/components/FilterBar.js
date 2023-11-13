@@ -1,5 +1,7 @@
 import { useDateSelect } from 'react-ymd-date-select';
-import { useState } from 'react';
+import { useRef } from 'react';
+import './FilterBar.css';
+
 
 /**
  * Guide followed from 
@@ -12,20 +14,15 @@ import { useState } from 'react';
  */
 function YearSelect(props) {
 
-  const dateSelect = useDateSelect(props.value, props.onChange, {
-    firstYear: 800
+  const dateSelect = useDateSelect(props.value, () => {}, {
+    firstYear: 1000,
   });
 
   return (
     <>
-      <input
-        type="date"
-        value={dateSelect.dateValue || ''}
-        onChange={dateSelect.onDateChange}
-      />
-      <label>
-        Year
-        <select value={dateSelect.yearValue} onChange={dateSelect.onYearChange}>
+      <label className="year-select-elem">
+        {props.label}
+        <select id={props.id} value={dateSelect.yearValue} onChange={dateSelect.onYearChange}>
           {dateSelect.yearOptions.map((yearOption) =>
             <option key={yearOption.value} value={yearOption.value}>
               {yearOption.label}
@@ -43,8 +40,6 @@ function YearSelect(props) {
  */
 function FilterBar({ sendQuery }){
 
-  const [year, setYear] = useState('800');
-
   /**
    * Gathers the filter params input by the user and sends the query using the
    * sendQuery function from the UserBar component.
@@ -52,14 +47,16 @@ function FilterBar({ sendQuery }){
    */
   function createQuery() {
 
-    const minYear = document.getElementById('minYear');
-    const maxYear = document.getElementById('maxYear');
+    // Since we know the max values are 1000 - 2023 for the year select
+    // Every year's index corresponds to itself - 1000
+    const minYear = document.getElementById('minYear').selectedIndex + 1000;
+    const maxYear = document.getElementById('maxYear').selectedIndex + 1000;
     const minMass = document.getElementById('minMass');
     const maxMass = document.getElementById('maxMass');
 
     sendQuery({
-      minYear:minYear.value,
-      maxYear:maxYear.value, 
+      minYear:minYear,
+      maxYear:maxYear, 
       minMass:minMass.value, 
       maxMass:maxMass.value,
       page:1
@@ -67,21 +64,12 @@ function FilterBar({ sendQuery }){
 
   }
 
-  /**
-   * Runs event listener used to change the associated label whenever
-   * a range input object is changed.
-   * @author Israel Aristide
-   * @param {*} event 
-   */
-  function onRangeChange(event) {
-
-    const label = document.getElementById(`${event.target.id}Label`);
-    label.innerText = event.target.value;
-    
-  }
+  const minMass = useRef(0);
+  const maxMass = useRef(60000);
 
   return(
     <div className="filter-bar">
+
       <input className="search-filter" placeholder="search..."/>
       {/* <input 
         type="range" 
@@ -102,25 +90,46 @@ function FilterBar({ sendQuery }){
       />  
       <label htmlFor="maxYear" id="maxYearLabel">800</label>
       */}
-      <YearSelect value={year} onChange={(value) => console.log(value)}/>
-      <input 
-        type="range" 
-        onChange={onRangeChange} 
-        id="minMass"
-        min="0"
-        max="1000"
-        step="1"
-      />
-      <label htmlFor="minMass" id="minMassLabel">0</label>
-      <input 
-        type="range" 
-        onChange={onRangeChange} 
-        id="maxMass"
-        min="0"
-        max="1000"
-        step="1"
-      /> 
-      <label htmlFor="maxMass" id="maxMassLabel">0</label>
+
+      <div className="bottom-filters">
+        <div className="year-select">
+          <YearSelect 
+            id="minYear" label=">>" 
+            value="1801"
+          />
+
+          <YearSelect 
+            id="maxYear" label="<<" 
+            value="2024"
+          />
+        </div>
+
+        <div className="mass-select">
+
+          <label className="mass-select-elem" htmlFor="minMass" id="minMassLabel">
+            -
+            <input 
+              type="number"
+              id="minMass"
+              max="60000"
+              ref={minMass}
+            />
+          </label>
+
+          <label className="mass-select-elem" htmlFor="minMass" id="maxMassLabel">
+            +
+            <input 
+              type="number"
+              id="maxMass"
+              max="60000"
+              step="1"
+              ref={maxMass}
+            />
+          </label>
+
+        </div>
+      </div>
+
       <button onClick={createQuery}>Search</button>
     </div>
   );
