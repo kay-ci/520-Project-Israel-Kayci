@@ -1,13 +1,11 @@
-function Card({meteor}){
-  const handleClick = (e) => {
-    e.preventDefault();
-    console.log(`The link for ${meteor.name} was clicked.`);
-  };
-
+function Card({meteor, handleMeteoriteZoom}){
   return(
-    <div className="card-div" onClick={handleClick}>
+    <div className="card-div" onClick={handleMeteoriteZoom}>
       <p>{meteor.name}</p>
-      <p>Mass: {meteor.mass}</p>
+      <p>
+        Mass: {meteor.mass} <br/>
+        Year: {meteor.year}
+      </p>
     </div>
   );
 }
