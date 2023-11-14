@@ -1,7 +1,5 @@
 import { Viewer, Entity, CameraFlyTo } from 'resium';
-import { Cartesian3 } from 'cesium';
-
-const pointGraphics = { pixelSize: 10 };
+import { Cartesian3, LabelStyle, VerticalOrigin } from 'cesium';
 
 function Globe({meteors, FlyToProps}){
 
@@ -14,7 +12,15 @@ function Globe({meteors, FlyToProps}){
             position = {Cartesian3.fromDegrees(
               parseFloat(meteor.geolocation.coordinates[0]), 
               parseFloat(meteor.geolocation.coordinates[1]), 100)}
-            point = {pointGraphics}
+            point = {{pixelSize: 10}}
+            label = {{
+              text: meteor.name,
+              font: '20px monospace',
+              style: LabelStyle.FILL_AND_OUTLINE,
+              outlineWidth: 20,
+              verticalOrigin: VerticalOrigin.BOTTOM,
+              pixelOffset: new Cartesian3(0, -9),
+            }}
           />)}
       </Viewer>
     </div>
