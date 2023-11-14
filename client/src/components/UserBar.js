@@ -1,8 +1,38 @@
 import FilterBar from './FilterBar';
 import Results from './Results'; 
+import { Cartesian3 } from 'cesium';
 import {useRef} from 'react';
 
-function UserBar( {meteors, setMeteors, handleMeteoriteZoom} ){
+function UserBar( {meteors, setMeteors, setFlyToProps} ){
+
+  /**
+   * Zoom to meteorite location
+   * @author Kayci Davila
+   * @param {*} meteorite 
+   */
+  const handleMeteoriteZoom = (meteorite) => {
+
+    setFlyToProps({
+
+      destination: Cartesian3.fromDegrees(
+        parseFloat(meteorite.geolocation.coordinates[0]), 
+        parseFloat(meteorite.geolocation.coordinates[1]), 
+        300
+      ),
+
+    });
+  };
+
+  /**
+   * Zoom out to home view
+   */
+  function homeView (){
+
+    setFlyToProps({
+      destination: Cartesian3.fromDegrees(0, 0, 25000000),
+      duration: 5,
+    });
+  };
 
   // We want to keep track of this but not necesarily re-render when it's changed
   // We use useRef to achieve this.
@@ -21,6 +51,7 @@ function UserBar( {meteors, setMeteors, handleMeteoriteZoom} ){
   function nextPage() {
     const queryParams = {...lastQuery.current, page:lastQuery.current.page + 1};
     sendQuery(queryParams);
+    homeView();
   }
 
   /**
@@ -30,6 +61,7 @@ function UserBar( {meteors, setMeteors, handleMeteoriteZoom} ){
   function lastPage() {
     const queryParams = {...lastQuery.current, page:lastQuery.current.page - 1};
     sendQuery(queryParams);
+    homeView();
   }
 
   /**
