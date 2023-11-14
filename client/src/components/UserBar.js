@@ -25,10 +25,12 @@ function UserBar( {meteors, setMeteors, setFlyToProps} ){
 
   /**
    * Zoom out to home view
+   * @author Kayci Davila
    */
   function homeView (){
 
     setFlyToProps({
+
       destination: Cartesian3.fromDegrees(0, 0, 25000000),
       duration: 5,
     });
