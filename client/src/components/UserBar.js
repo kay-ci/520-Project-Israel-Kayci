@@ -19,7 +19,7 @@ function UserBar( {meteors, setMeteors, setFlyToProps} ){
         parseFloat(meteorite.geolocation.coordinates[1]), 
         300
       ),
-
+      duration: 5,
     });
   };
 
