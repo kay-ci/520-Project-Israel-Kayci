@@ -1,15 +1,16 @@
 import FilterBar from './FilterBar';
 import Results from './Results'; 
-
 import {useRef} from 'react';
 
-function UserBar( {meteors, setMeteors } ){
+function UserBar( {meteors, setMeteors, handleMeteoriteZoom} ){
 
   // We want to keep track of this but not necesarily re-render when it's changed
   // We use useRef to achieve this.
   const lastQuery = useRef({
-    minYear:0, maxYear:2023, 
-    minMass:0, maxMass:100000,
+    minYear:0, 
+    maxYear:2023, 
+    minMass:0, 
+    maxMass:100000,
     page:1
   });
 
@@ -34,7 +35,13 @@ function UserBar( {meteors, setMeteors } ){
   /**
    * Creates a fetch request to the API using the filter params as input
    * @author Israel Aristide
-   * @param {*} params 
+   * @param {{
+   *   minYear: int, 
+   *   maxYear: int,
+   *   minMass: float, 
+   *   maxMass: float,
+   *   page: int
+   * }} params 
    */
   function sendQuery(params) {
     
@@ -60,7 +67,7 @@ function UserBar( {meteors, setMeteors } ){
   return(
     <div className="user-bar">
       <FilterBar sendQuery={sendQuery}/>
-      <Results meteors={meteors}/>
+      <Results meteors={meteors} handleMeteoriteZoom={handleMeteoriteZoom}/>
       <button onClick={lastPage}>Last</button>
       <button onClick={nextPage}>Next</button>
     </div>
