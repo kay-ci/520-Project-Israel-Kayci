@@ -9,32 +9,27 @@ html {
   box-sizing: border-box;
 }
 
-a {
-  color: #B8DFF0;
-}
-
 #root {
   height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center
+  justify-content: center;
+  background: #1A2C5B;
 }
 
 .app {
   display: flex;
   text-align: center;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  border: 1px black solid;
+  flex-direction: column; 
   background-color: #1A2C5B;
+  width: 95%;
+  height: 95%;
 }
 
 .main{
   display: flex;
-  padding: 20px;
   max-height: 90vh;
   flex: 9;
 }
@@ -46,16 +41,28 @@ a {
 }
 
 .filter-bar{
-  background-color: grey;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #7A86B6;
+}
+
+.page-info {
+  margin: 5px;
+  color: white;
 }
 
 .results{
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-right: 10px; 
+  padding: 0;
   overflow: scroll;
   overflow-x: hidden;
+  vertical-align: middle;
+}
+
+::-webkit-scrollbar {
+  color: red;
 }
 
 li{
@@ -64,11 +71,10 @@ li{
 
 .card-div{
   padding: 10px;
-  border-radius: 15px;
-  border: solid 1px #B8DFF0;
-  margin: 10px 20px;
-  background-color: #3E4E88;
-  color: white;
+  border: solid 1px;
+  background-color: #C8B6E2;
+  border-radius: 5px;
+  margin: 2.5px 5px;
 }
 
 .card-div:hover {
@@ -80,7 +86,6 @@ li{
   flex: 5;
   width: 100%;
   height: 100%;
-  border: 1px purple solid;
 }
 
 /* stylelint-disable-next-line selector-class-pattern */
@@ -93,37 +98,65 @@ li{
   display:none !important;
 }
 
+.cesium-viewer{
+  border-radius: 10px;
+  margin-left: 10px;
+}
+
 .viewer {
   display: flex;
   width: 100%;
   height: 100%;
 }
 
+.search-filter{
+  background: #A8A4CE;
+}
+
+.foot-button {
+  height: fit-content;
+  align-self: center;
+}
+
 .my-footer{
-  background-color: #101b39;
+  background-color: #A8A4CE;
   flex: 1;
   display: flex;
 }
 
 .my-footer > p {
   padding-left: 10px;
-  color: white;
-}
-
-.foot-button {
-  background-color: #121723;
-  color: white;
-  padding: none;
-  border: none;
-}
-
-.foot-button:hover {
-  background-color: #5269a0;
+  margin: 0;
+  align-self: center;
 }
 
 
 .header {
   flex: 1;
+}
+
+
+.pages-btn{
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  margin: 5px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #000;
+  cursor: pointer;
+  border: 1px solid;
+  padding: 0.5em;
+  box-shadow: 1px 1px 0 0, 1px 1px 0 0, 2px 2px 0 0, 3px 3px 0 0, 4px 4px 0 0;
+}
+
+.results::-webkit-scrollbar {
+  width: 12px;              
 }
 
 .meteorite-title{
@@ -140,7 +173,7 @@ hr{
 
 .info-title{
   font-family: sans-serif;
-  color: #B8DFF0;
+  color: darkslategrey;
   text-align: start;
   margin: 0 10px;
 }
@@ -159,12 +192,6 @@ hr{
 .info-div{
   display: flex;
   flex-direction: column;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  /* .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  } */
 }
 
 #popup {
@@ -197,3 +224,48 @@ hr{
   margin: 0;
 }
 
+@media (1px <= width <= 800px) {
+  .app{
+    height: 100vh;
+  }
+
+  .main{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .user-bar{
+    height: 100%;
+  }
+
+  .results{
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+
+  .globe-div{
+    max-height: 50vh;
+  }
+
+  .card-div{
+    min-width: 75vw;
+    text-align: center;
+    padding-bottom: 0;
+    margin-right: 20px;
+  }
+
+  .info-title{
+    color: darkslateblue;
+    margin: 0 1px;
+  }
+
+  .meteorite-title{
+    text-align: center;
+  }
+
+  .meteorite-info{
+    justify-content: center;
+  }
+}
