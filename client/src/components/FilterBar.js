@@ -1,5 +1,5 @@
 import { useDateSelect } from 'react-ymd-date-select';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import './FilterBar.css';
 
 

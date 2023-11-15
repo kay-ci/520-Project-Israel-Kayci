@@ -44,9 +44,16 @@ describe('GET meteorites/', () => {
     });
   });
 
-  // test('Response with invalid year range', async () => {
-
-  // });
+  test('Response with invalid year range', async () => {
+    // Invalid request since the min year is greater than max year
+    const response = await request(app).get('/meteorites/?minYear=2020&maxYear=1990');
+    
+    expect(response.status).toEqual(400);
+    expect(response.body).toEqual({
+      'status':400,
+      'message': 'Invalid year range'
+    });
+  });
 
   // test('Response with invalid mass range', async () => {
     
