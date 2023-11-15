@@ -8,12 +8,13 @@
 
 .top-sec {
   display: flex;
-  align-items: stretch;
+  justify-content: space-between;
 }
 
 .rating-sec {
   display: flex;
   flex-direction: column;
+  margin-right: 10px;
 }
 
 .rating-numbers > p {

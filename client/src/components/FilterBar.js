@@ -133,6 +133,7 @@ function FilterBar({ setSearchFilter, sendQuery }){
       <div className="search-btn">
         <button onClick={createQuery}>Search</button>
       </div>
+      
     </div>
   );
 

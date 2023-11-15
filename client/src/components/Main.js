@@ -10,7 +10,6 @@ function Main() {
   const [FlyToProps, setFlyToProps] = useState(null);
   const [userId, setUserId] = useState('0');
 
-<<<<<<< HEAD
   useEffect(() => {
 
     const fpPromise = FingerprintJS.load();
@@ -35,13 +34,7 @@ function Main() {
         setMeteors={setMeteors} 
         setFlyToProps={setFlyToProps}
       />
-      <Globe meteors={meteors} FlyToProps={FlyToProps}/>
-=======
-  return (
-    <section className="main">
-      <UserBar meteors={meteors} setMeteors={setMeteors} setFlyToProps={setFlyToProps}/>
       <Globe meteors={meteors.data} FlyToProps={FlyToProps}/>
->>>>>>> 2bc8d4648311375b8f5a74f2af91b7332892e30f
     </section>
   );
 
