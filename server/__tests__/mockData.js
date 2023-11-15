@@ -19,7 +19,7 @@ const mockData = [
     id: '31357',
     name: 'Zubkovsky',
     class: 'L6',
-    mass: '2167',
+    mass: '1000',
     year: '2003',
     geolocation: { type: 'Point', coordinates: ['41.5046', '49.78917'] }
   },
@@ -43,7 +43,7 @@ const mockData = [
     id: '31357',
     name: 'Zubkovsky',
     class: 'L6',
-    mass: '2167',
+    mass: '432',
     year: '2003',
     geolocation: { type: 'Point', coordinates: ['41.5046', '49.78917'] }
   },
@@ -51,7 +51,7 @@ const mockData = [
     id: '31357',
     name: 'Zubkovsky',
     class: 'L6',
-    mass: '2167',
+    mass: '999',
     year: '2003',
     geolocation: { type: 'Point', coordinates: ['41.5046', '49.78917'] }
   },

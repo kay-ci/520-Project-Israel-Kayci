@@ -21,9 +21,34 @@ describe('GET meteorites/', () => {
       'page': 1,
       'pages':1,
       'params': {}, 
-      'data': mockData}
-    );
+      'data': mockData
+    });
   });
 
+  test('Response with query parameters', async () => {
+    const response = await request(app).
+      get('/meteorites/?minYear=1800&maxYear=2023&minMass=0&maxMass=1000');
+    
+    expect(response.status).toEqual(200);
+    expect(response.body).toEqual({
+      'status': 200,
+      'page': 1,
+      'pages':1,
+      'params': {
+        'minYear':1800, 
+        'maxYear':2023,
+        'minMass':0,
+        'maxMass':1000
+      }, 
+      'data': mockData
+    });
+  });
 
+  // test('Response with invalid year range', async () => {
+
+  // });
+
+  // test('Response with invalid mass range', async () => {
+    
+  // });
 });
