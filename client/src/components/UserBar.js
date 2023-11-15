@@ -108,8 +108,10 @@ function UserBar( {meteors, setMeteors, setFlyToProps} ){
         meteors={meteors} 
         handleMeteoriteZoom={handleMeteoriteZoom}
       />
-      <button onClick={lastPage}>Last</button>
-      <button onClick={nextPage}>Next</button>
+      <div className="pages-btn">
+        <button onClick={lastPage}>Last</button>
+        <button onClick={nextPage}>Next</button>
+      </div>
     </div>
   );
 }
