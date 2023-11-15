@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
         minYear > maxYear ||
         (minYear < 0 || maxYear < 0)
       ) {
-        return res.status(400).json({code: 400, message:'Invalid year range'});
+        return res.status(400).json({status: 400, message:'Invalid year range'});
       }
     }
 
@@ -44,7 +44,7 @@ router.get('/', async (req, res) => {
         minMass > maxMass ||
         minMass < 0 || maxMass < 0
       ) {
-        return res.status(400).json({code: 400, message:'Invalid mass range'});
+        return res.status(400).json({status: 400, message:'Invalid mass range'});
       }
 
     }
@@ -66,7 +66,7 @@ router.get('/', async (req, res) => {
     });
 
   }catch(e){
-    res.status(500).json({code: 500, message: `Meteorite data could not be read: ${e}`});
+    res.status(500).json({status: 500, message: `Meteorite data could not be read: ${e}`});
   }
 });
 
