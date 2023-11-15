@@ -143,27 +143,39 @@ hr{
 }
 
 @media (1px <= width <= 800px) {
+  .app{
+    height: 100vh;
+  }
+
   .main{
     display: flex;
     flex-direction: column;
     border: solid 5px black;
+    height: 100%
   }
 
   .results{
     display: flex;
     flex-direction: row;
-    overflow-x: scroll;
+    overflow: scroll;
   }
 
   .globe-div{
-    height: 50vh;
+    max-height: 40vh;
   }
 
   .card-div{
-    min-width: 86vw;
+    min-width: 75vw;
     text-align: center;
+    padding-bottom: 0;
+    margin-right: 20px;
+
   }
-  
+
+  .info-title{
+    margin: 0 1px;
+  }
+
   .meteorite-title{
     text-align: center;
   }
