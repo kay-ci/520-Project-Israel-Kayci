@@ -1,8 +1,8 @@
 import Card from './Card';
 
 /**
- * isEmpty function that returns true when a string is populated
- * but false if its undefined, null, empty, or whitespace
+ * isEmpty function that returns false when a string is populated
+ * but true if its undefined, null, empty, or whitespace
  * from: https://sentry.io/answers/how-do-i-check-for-an-empty-undefined-null-string-in-javascript/
  * @author Matthew C.
  */
