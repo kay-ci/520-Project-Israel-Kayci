@@ -99,7 +99,6 @@ function FilterBar({ setSearchFilter, sendQuery }){
               id="minMass"
               max="60000"
               ref={minMass}
-              value="0"
             />
           </label>
 
@@ -111,7 +110,6 @@ function FilterBar({ setSearchFilter, sendQuery }){
               max="60000"
               step="1"
               ref={maxMass}
-              value="1000"
             />
           </label>
 
