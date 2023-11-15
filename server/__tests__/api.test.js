@@ -55,7 +55,14 @@ describe('GET meteorites/', () => {
     });
   });
 
-  // test('Response with invalid mass range', async () => {
+  test('Response with invalid mass range', async () => {
+    // Invalid request since the min mass is greater than max mass
+    const response = await request(app).get('/meteorites/?minMass=2000&maxMass=10');
     
-  // });
+    expect(response.status).toEqual(400);
+    expect(response.body).toEqual({
+      'status':400,
+      'message': 'Invalid mass range'
+    });
+  });
 });
