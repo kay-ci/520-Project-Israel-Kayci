@@ -38,7 +38,7 @@ function YearSelect(props) {
  * Contains all the filtering options.
  * @author Israel Aristide
  */
-function FilterBar({ sendQuery }){
+function FilterBar({ setSearchFilter, sendQuery }){
 
   /**
    * Gathers the filter params input by the user and sends the query using the
@@ -70,26 +70,9 @@ function FilterBar({ sendQuery }){
   return(
     <div className="filter-bar">
 
-      <input className="search-filter" placeholder="search..."/>
-      {/* <input 
-        type="range" 
-        onChange={onRangeChange} 
-        id="minYear"
-        min="800"
-        max="2023"
-        step="1"
-      /> 
-      <label htmlFor="minYear" id="minYearLabel">800</label>
-      <input 
-        type="range" 
-        onChange={onRangeChange} 
-        id="maxYear"
-        min="800"
-        max="2023"
-        step="1"
-      />  
-      <label htmlFor="maxYear" id="maxYearLabel">800</label>
-      */}
+      <input onInput={(event) => {
+        setSearchFilter(event.target.value);
+      }} className="search-filter" placeholder="search..."/>
       <div className="bottom-filters-text">
         <p>Year</p>
         <p>Mass (g)</p>
