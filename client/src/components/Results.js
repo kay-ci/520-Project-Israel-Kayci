@@ -7,7 +7,10 @@ import Card from './Card';
  * @author Matthew C.
  */
 export function isEmpty(value) {
-  return value === null || (typeof value === 'string' && value.trim().length === 0);
+  if (typeof value === 'string'){
+    return value.trim().length === 0;
+  }
+  return value === null;
 }
 
 /**
