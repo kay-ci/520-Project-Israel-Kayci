@@ -51,12 +51,12 @@ li{
 }
 
 .card-div{
+  padding: 10px;
   border-radius: 25px;
-  margin: 0;
 }
 
 .card-div:hover {
-  background-color: #9e57a8;
+  background-color:lightgray;
 }
 
 .globe-div{
@@ -90,6 +90,30 @@ li{
 
 .header {
   flex: 1;
+}
+
+.meteorite-title{
+  font-size: 20px;
+  font-weight: bold;
+  text-align: start;
+  padding: 10px;
+  margin : auto;
+  font-family: ui-monospace;
+}
+
+hr{
+  margin: 10px;
+}
+
+.info-title{
+  color: grey;
+  text-align: start;
+  margin: 0 5px;
+}
+
+.info{
+  margin: 0 5px;
+  text-align: start;
 }
 
 @media (prefers-reduced-motion: no-preference) {
