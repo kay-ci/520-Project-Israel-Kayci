@@ -1,5 +1,16 @@
+/**
+1A2C5B
+3E4E88
+7971EA
+B8DFF0
+*/
+
 html {
   box-sizing: border-box;
+}
+
+a {
+  color: #B8DFF0;
 }
 
 #root {
@@ -18,6 +29,7 @@ html {
   width: 100%;
   height: 100%;
   border: 1px black solid;
+  background-color: #1A2C5B;
 }
 
 .main{
@@ -52,13 +64,15 @@ li{
 
 .card-div{
   padding: 10px;
-  border-radius: 25px;
-  border: solid 1px;
-  margin: 5px;
+  border-radius: 15px;
+  border: solid 1px #B8DFF0;
+  margin: 10px 20px;
+  background-color: #3E4E88;
+  color: white;
 }
 
 .card-div:hover {
-  background-color:lightgray;
+  background-color:#4F5F99;
 }
 
 .globe-div{
@@ -86,19 +100,38 @@ li{
 }
 
 .my-footer{
-  background-color: grey;
+  background-color: #101b39;
   flex: 1;
+  display: flex;
 }
+
+.my-footer > p {
+  padding-left: 10px;
+  color: white;
+}
+
+.foot-button {
+  background-color: #121723;
+  color: white;
+  padding: none;
+  border: none;
+}
+
+.foot-button:hover {
+  background-color: #5269a0;
+}
+
 
 .header {
   flex: 1;
 }
 
 .meteorite-title{
-  font-size: 20px;
+  font-size: 23px;
   text-align: start;
-  margin : auto;
+  margin : auto 10px;
   font-family: sans-serif;
+  font-weight: bolder;
 }
 
 hr{
@@ -107,7 +140,7 @@ hr{
 
 .info-title{
   font-family: sans-serif;
-  color: grey;
+  color: #B8DFF0;
   text-align: start;
   margin: 0 10px;
 }
@@ -136,11 +169,27 @@ hr{
 
 #popup {
   position: fixed;
+  display: flex;
   top: 0;
   right: 0;
   width: 100vw;
   height: 100vh;
-  background-color: white;
+  background-color: #404040a0;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+#popup > section {
+  background-color: #101b39;
+  width: 30vw;
+  padding: 10px;
+  border: 1px #7971EA solid;
+}
+
+#popup > section > button {
+  align-self: flex-end;
+  justify-self: end;
 }
 
 

@@ -3,26 +3,36 @@ import { useState } from 'react';
 
 function Footer(){
 
-  const [popup, setPopup] = useState(false);
+  const [popup, setPopup] = useState(true);
 
   return (
     <>
       <footer className="my-footer">
-        <button onClick={() => setPopup(!popup)}>?</button>
+        <button className="foot-button" onClick={() => setPopup(!popup)}>?</button>
         <p>Israel Aristide - Kayci Davilla 2023</p>
       </footer>
 
       {popup && <section id="popup">
-        <button onClick={() => setPopup(!popup)}>x</button>
-        <h1>Beyond our earth</h1>
+        <section>
+          <button className="foot-button" onClick={() => setPopup(!popup)}>x</button>
+          <h1>Beyond our earth</h1>
 
-        <p>
-        Include some text to explain the goal of the visualization.
-Display an attribution to the source of the dataset.
-Display your names in some small footer area or some such.
-Choose appropriate HTML elements based on semantics (i.e. not just divs)
-        </p>
+          <p>
+            This visualization of NASA's meteorite dataset is made to allow users to explore exactly
+            what is beyond our point of view.
+          </p>
 
+          <p>
+            The dataset comes from <a 
+              href="https://www.kaggle.com/datasets/sujaykapadnis/meteorites-dataset">
+                kaggle.com
+            </a> published by Sujay Kapadnis. 
+            The data inside is provided by <a 
+              href="https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh/data">
+                NASA
+            </a>
+          </p>
+        </section>
       </section>}
     </>
   );
