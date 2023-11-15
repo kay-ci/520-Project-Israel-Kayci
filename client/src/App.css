@@ -40,7 +40,6 @@ html {
 .results{
   display: flex;
   flex-direction: column;
-  border: 1px red solid;
   width: 100%;
   margin-right: 10px; 
   overflow: scroll;
@@ -52,12 +51,14 @@ li{
 }
 
 .card-div{
+  padding: 10px;
   border-radius: 25px;
-  margin: 0;
+  border: solid 1px;
+  margin: 5px;
 }
 
 .card-div:hover {
-  background-color: #9e57a8;
+  background-color:lightgray;
 }
 
 .globe-div{
@@ -91,6 +92,40 @@ li{
 
 .header {
   flex: 1;
+}
+
+.meteorite-title{
+  font-size: 20px;
+  text-align: start;
+  margin : auto;
+  font-family: sans-serif;
+}
+
+hr{
+  margin: 10px;
+}
+
+.info-title{
+  font-family: sans-serif;
+  color: grey;
+  text-align: start;
+  margin: 0 10px;
+}
+
+.info{
+  font-family: sans-serif;
+  margin: 0 10px;
+  text-align: start;
+}
+
+.meteorite-info{
+  display: flex;
+  flex-direction: row;
+}
+
+.info-div{
+  display: flex;
+  flex-direction: column;
 }
 
 @media (prefers-reduced-motion: no-preference) {
