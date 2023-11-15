@@ -3,7 +3,7 @@ import Results from './Results';
 import { Cartesian3 } from 'cesium';
 import { useRef, useState } from 'react';
 
-function UserBar( {meteors, setMeteors, setFlyToProps} ){
+function UserBar( { userId, meteors, setMeteors, setFlyToProps } ){
 
   /**
    * Zoom to meteorite location
@@ -27,7 +27,7 @@ function UserBar( {meteors, setMeteors, setFlyToProps} ){
    * Zoom out to home view
    * @author Kayci Davila
    */
-  function homeView (){
+  function homeView () {
 
     setFlyToProps({
 
@@ -100,10 +100,16 @@ function UserBar( {meteors, setMeteors, setFlyToProps} ){
 
   }
 
-  return(
+  function handleRating(meteorId, rating) {
+    
+  }
+
+  return (
     <div className="user-bar">
       <FilterBar setSearchFilter={setSearchFilter} sendQuery={sendQuery}/>
-      <Results 
+      <Results
+        userId={userId}
+        handleRating={handleRating}
         searchFilter={searchFilter} 
         meteors={meteors} 
         handleMeteoriteZoom={handleMeteoriteZoom}
