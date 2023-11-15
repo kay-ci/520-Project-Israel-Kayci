@@ -98,3 +98,23 @@ Things to think about:
 
 
 
+# November 14 2023, Tuesday, on call HAIL MARY
+Attendees: Kayci, Israel
+Note taker: Israel
+
+# problems
+Too much work for mobile dev left us with little web dev time
+
+solution: Carlton gave an extension!
+
+# IZZYS TASKS FOR THE NIGHT
+1. Search name filtering
+2. Geolocation to country
+3. Guessing game?
+
+# Things still left to do (from last time)
+1. Mobile compat
+2. Finish the attributions and such in the popup
+3. FIGURE OUT RATING SYSTEM
+4. tests
+
