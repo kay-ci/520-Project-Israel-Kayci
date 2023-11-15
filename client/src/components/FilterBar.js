@@ -1,5 +1,5 @@
 import { useDateSelect } from 'react-ymd-date-select';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import './FilterBar.css';
 
 
@@ -34,6 +34,24 @@ function YearSelect(props) {
   );
 }
 
+function MassSelect({ id, max, min, defValue }) {
+
+  const [value, setValue] = useState(defValue);
+
+  return (
+    <input 
+      type="number"
+      id={id}
+      max={max}
+      min={min}
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+      value={value}
+    />
+  );
+}
+
 /**
  * Contains all the filtering options.
  * @author Israel Aristide
@@ -64,9 +82,6 @@ function FilterBar({ setSearchFilter, sendQuery }){
 
   }
 
-  const minMass = useRef(0);
-  const maxMass = useRef(60000);
-
   return(
     <div className="filter-bar">
 
@@ -94,24 +109,21 @@ function FilterBar({ setSearchFilter, sendQuery }){
 
           <label className="mass-select-elem" htmlFor="minMass" id="minMassLabel">
             -
-            <input 
-              type="number"
+            <MassSelect
               id="minMass"
-              max="60000"
-              ref={minMass}
-              value="0"
+              max="600000"
+              min="0"
+              defValue="0"
             />
           </label>
 
           <label className="mass-select-elem" htmlFor="minMass" id="maxMassLabel">
             +
-            <input 
-              type="number"
+            <MassSelect
               id="maxMass"
-              max="60000"
-              step="1"
-              ref={maxMass}
-              value="1000"
+              max="600000"
+              min="0"
+              defValue="600000"
             />
           </label>
 

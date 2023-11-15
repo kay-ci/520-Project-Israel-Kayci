@@ -95,7 +95,7 @@ function UserBar( {meteors, setMeteors, setFlyToProps} ){
       return Promise.reject('Could not fetch meteorites');
 
     }).then(json => {
-      setMeteors(json.data);
+      setMeteors(json);
     });
 
   }
@@ -105,11 +105,12 @@ function UserBar( {meteors, setMeteors, setFlyToProps} ){
       <FilterBar setSearchFilter={setSearchFilter} sendQuery={sendQuery}/>
       <Results 
         searchFilter={searchFilter} 
-        meteors={meteors} 
+        meteors={meteors.data} 
         handleMeteoriteZoom={handleMeteoriteZoom}
       />
       <div className="pages-btn">
         <button onClick={lastPage}>Last</button>
+        <p className="page-info">Page {meteors.page} of {meteors.pages}</p>
         <button onClick={nextPage}>Next</button>
       </div>
     </div>
