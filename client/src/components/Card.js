@@ -1,20 +1,28 @@
-function Card({meteor, handleMeteoriteZoom}){
-  const info = meteor;
-  console.log(info);
+import { TbWeight } from 'react-icons/tb';
+import { MdOutlineClass } from 'react-icons/md';
+import { CiLocationOn } from 'react-icons/ci';
 
+function Card({meteor, handleMeteoriteZoom}){
   return(
     <div className="card-div" onClick={handleMeteoriteZoom}>
       <p className="meteorite-title">{meteor.name} {meteor.year}</p>
       <hr></hr>
-      <p className="info-title"> Mass </p>
-      <p className="info">{meteor.mass} g</p>
-      <hr></hr>
-      <p className="info-title"> Class </p>
-      <p className="info">{meteor.class}</p>
-      <hr></hr>
-      <p className="info-title"> Location </p>
-      <p className="info"> 
-        {meteor.geolocation.coordinates[0]}&deg; {meteor.geolocation.coordinates[1]}&deg;</p>
+      <div className="meteorite-info">
+        <div className="info-div">
+          <p className="info-title"> Mass <TbWeight /></p>
+          <p className="info">{meteor.mass} g</p>
+        </div>
+        
+        <div className="info-div">
+          <p className="info-title"> Class <MdOutlineClass /></p> 
+          <p className="info">{meteor.class}</p>
+        </div>
+        <div className="info-div">
+          <p className="info-title"> Location <CiLocationOn /></p>
+          <p className="info"> 
+            {meteor.geolocation.coordinates[0]}&deg; {meteor.geolocation.coordinates[1]}&deg;</p>
+        </div>
+      </div>
     </div>
   );
 }
