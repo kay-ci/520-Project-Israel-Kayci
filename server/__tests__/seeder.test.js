@@ -85,3 +85,54 @@ test('isEmptyOrSpace works peoperly', () => {
 test('isEmptyOrSpace woks inverse', () => {
   expect(isEmptyOrSpaces('skalkjda')).toEqual(false);
 });
+
+/**
+ * Testing NA values being filtered since 
+ * @author Kayci Davila
+ */
+describe('Filter NA values', () =>{
+  const expected = [
+    {
+      id: '30409',
+      name: 'Zinder',
+      class: 'Pallasite, ungrouped',
+      mass: '46',
+      year: '1999',
+      geolocation: { type: 'Point', coordinates: ['8.96667', '13.78333'] }
+    },
+    {
+      id: '30410',
+      name: 'Zlin',
+      class: 'H4',
+      mass: '3.3',
+      year: '1939',
+      geolocation: { type: 'Point', coordinates: ['17.66667', '49.25'] }
+    },
+    {
+      id: '31357',
+      name: 'Zubkovsky',
+      class: 'L6',
+      mass: '2167',
+      year: '2003',
+      geolocation: { type: 'Point', coordinates: ['41.5046', '49.78917'] }
+    }
+  ];
+
+  const records = [
+    ['name', 'id', 'name_type', 'class', 'mass', 'fall', 'year', 'lat', 'long', 'geolocation'],
+    ['Zinder', '30409', 'Valid', 'Pallasite, ungrouped', '46', 
+      'Found', '1999', '13.78333', '8.96667', '(13.78333, 8.96667)'],
+    ['Zlin', '30410', 'Valid', 'H4', '3.3', 
+      'Found', '1939', '49.25', '17.66667', '(49.25, 17.66667)'],
+    ['Zubkovsky', '31357', 'Valid', 'L6', '2167',
+      'Found', '2003', '49.78917', '41.5046', '(49.78917,  41.5046)'],
+    ['Zulu Queen', '30414', 'Valid', 'L3.7', '200',
+      'Found', '1976', 'NA', 'NA', '(NA, NA)']
+  ];
+
+  const meteors = onParseFinish(records);
+
+  expect(meteors.length).toEqual(3);
+  expect(meteors).toEqual(expected);
+
+});

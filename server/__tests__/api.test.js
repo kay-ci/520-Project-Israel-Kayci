@@ -1,9 +1,16 @@
-// const express = require('express');
-// const app = express();
-// //const endpoint = require('../src/routes/api.js');
-// const request = require('supertest');
-// const axios = require('axios');
-// jest.mock('axios');
+
+const api = require('../src/routes/api.js');
+const request = require('supertest');
+const db = require('../src/db/db');
+
+// Mocking the DB
+jest.mock('../src/db/db' );
+const mockReadAll = jest.spyOn(db.prototye, 'readAll');
+
+describe('Get meteorites', () => {
+  
+});
+
 // const mockData = [{ data : [
 //   {
 //     id: '30409',
