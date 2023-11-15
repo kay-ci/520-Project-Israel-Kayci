@@ -58,6 +58,7 @@ li{
   border-radius: 25px;
   border: solid 1px;
   margin: 5px;
+  background-color: #C8B6E2;
 }
 
 .card-div:hover {
@@ -146,7 +147,7 @@ hr{
 
 .info-title{
   font-family: sans-serif;
-  color: grey;
+  color: darkslategrey;
   text-align: start;
   margin: 0 10px;
 }
@@ -212,7 +213,6 @@ hr{
     text-align: center;
     padding-bottom: 0;
     margin-right: 20px;
-    background: #C8B6E2;
   }
 
   .info-title{
