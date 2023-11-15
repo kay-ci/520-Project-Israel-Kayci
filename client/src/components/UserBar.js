@@ -1,7 +1,7 @@
 import FilterBar from './FilterBar';
 import Results from './Results'; 
 import { Cartesian3 } from 'cesium';
-import {useRef} from 'react';
+import { useRef, useState } from 'react';
 
 function UserBar( {meteors, setMeteors, setFlyToProps} ){
 
@@ -45,6 +45,8 @@ function UserBar( {meteors, setMeteors, setFlyToProps} ){
     maxMass:100000,
     page:1
   });
+  
+  const [searchFilter, setSearchFilter] = useState('');
 
   /**
    * Goes to the next page of the search results
@@ -100,8 +102,12 @@ function UserBar( {meteors, setMeteors, setFlyToProps} ){
 
   return(
     <div className="user-bar">
-      <FilterBar sendQuery={sendQuery}/>
-      <Results meteors={meteors} handleMeteoriteZoom={handleMeteoriteZoom}/>
+      <FilterBar setSearchFilter={setSearchFilter} sendQuery={sendQuery}/>
+      <Results 
+        searchFilter={searchFilter} 
+        meteors={meteors} 
+        handleMeteoriteZoom={handleMeteoriteZoom}
+      />
       <button onClick={lastPage}>Last</button>
       <button onClick={nextPage}>Next</button>
     </div>
