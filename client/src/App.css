@@ -128,12 +128,6 @@ hr{
   flex-direction: column;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  /* .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  } */
-}
-
 #popup {
   position: fixed;
   top: 0;
@@ -148,3 +142,33 @@ hr{
   margin: 0;
 }
 
+@media (1px <= width <= 800px) {
+  .main{
+    display: flex;
+    flex-direction: column;
+    border: solid 5px black;
+  }
+
+  .results{
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+  }
+
+  .globe-div{
+    height: 50vh;
+  }
+
+  .card-div{
+    min-width: 86vw;
+    text-align: center;
+  }
+  
+  .meteorite-title{
+    text-align: center;
+  }
+
+  .meteorite-info{
+    justify-content: center;
+  }
+}
