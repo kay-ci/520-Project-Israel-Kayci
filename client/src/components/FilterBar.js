@@ -1,5 +1,5 @@
 import { useDateSelect } from 'react-ymd-date-select';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import './FilterBar.css';
 
 
@@ -133,7 +133,7 @@ function FilterBar({ setSearchFilter, sendQuery }){
       <div className="search-btn">
         <button onClick={createQuery}>Search</button>
       </div>
-      
+
     </div>
   );
 

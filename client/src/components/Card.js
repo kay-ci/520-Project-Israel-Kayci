@@ -24,6 +24,7 @@ function Rating({userId, handleRating, meteor}) {
   }, []);
 
   function ButtonClick(e, rating) {
+
     e.stopPropagation();
     const tempLikes = {...likes};
     if (rating === 'like') {
@@ -46,6 +47,7 @@ function Rating({userId, handleRating, meteor}) {
       }
     }
     setLikes(tempLikes);
+
   }
 
   return (
@@ -77,7 +79,7 @@ function Card({userId, handleRating, meteor, handleMeteoriteZoom}){
   return(
     <div className="card-div" onClick={handleMeteoriteZoom}>
       <div className="top-sec">
-        <p className="meteorite-title">{meteor.name} {meteor.year}</p>
+        <p className="meteorite-title">{meteor.name} - {meteor.year}</p>
         <Rating userId={userId} handleRating={handleRating} meteor={meteor}/>
       </div>
       
