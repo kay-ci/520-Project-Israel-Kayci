@@ -1,13 +1,19 @@
 import Card from './Card';
-import Filtering from './Filtering';
 
-function Results(){
-  return(
-    <div className="results">
-      <Card/>
-      <div></div>
-      <Filtering/>
-    </div>
-  );
+function Results( { meteors, handleMeteoriteZoom } ){
+
+  if (meteors.length > 0){
+    return(
+      <div className="results">
+        {meteors.map(meteor => 
+          <Card key={meteor.name} 
+            meteor = {meteor} 
+            handleMeteoriteZoom={()=>{
+              handleMeteoriteZoom(meteor);
+            }}/>)}
+      </div>
+    );
+  }
+  
 }
 export default Results;
