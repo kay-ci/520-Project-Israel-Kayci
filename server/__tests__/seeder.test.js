@@ -86,6 +86,10 @@ test('isEmptyOrSpace woks inverse', () => {
   expect(isEmptyOrSpaces('skalkjda')).toEqual(false);
 });
 
+/**
+ * Testing NA values being filtered since 
+ * @author Kayci Davila
+ */
 describe('Filter NA values', () =>{
   const expected = [
     {
@@ -117,11 +121,11 @@ describe('Filter NA values', () =>{
   const records = [
     ['name', 'id', 'name_type', 'class', 'mass', 'fall', 'year', 'lat', 'long', 'geolocation'],
     ['Zinder', '30409', 'Valid', 'Pallasite, ungrouped', '46', 
-      'Found', '1999', '8.96667', '13.78333', '(8.96667, 13.78333)'],
+      'Found', '1999', '13.78333', '8.96667', '(13.78333, 8.96667)'],
     ['Zlin', '30410', 'Valid', 'H4', '3.3', 
-      'Found', '1939', '17.66667', '49.25', '(17.66667, 49.25)'],
+      'Found', '1939', '49.25', '17.66667', '(49.25, 17.66667)'],
     ['Zubkovsky', '31357', 'Valid', 'L6', '2167',
-      'Found', '2003', '41.5046', '49.78917', '(41.5046, 49.78917)'],
+      'Found', '2003', '49.78917', '41.5046', '(49.78917,  41.5046)'],
     ['Zulu Queen', '30414', 'Valid', 'L3.7', '200',
       'Found', '1976', 'NA', 'NA', '(NA, NA)']
   ];
