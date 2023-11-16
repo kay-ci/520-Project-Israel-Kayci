@@ -4,7 +4,6 @@ import { CiLocationOn } from 'react-icons/ci';
 import * as countryCoder from '@rapideditor/country-coder';
 import { BiDislike, BiLike, BiSolidDislike, BiSolidLike } from 'react-icons/bi';
 import { useState, useEffect } from 'react';
-
 import './Card.css';
 
 function Rating({userId, handleRating, meteor}) {
