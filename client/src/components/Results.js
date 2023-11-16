@@ -13,11 +13,6 @@ export function isEmpty(value) {
   return value === null;
 }
 
-/**
- * @author Kayci Davila
- * @param {@} param0 
- * @returns 
- */
 function Results( { userId, handleRating, searchFilter, meteors, handleMeteoriteZoom } ){
 
   if (meteors.length > 0){

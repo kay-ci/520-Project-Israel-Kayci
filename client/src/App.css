@@ -124,6 +124,10 @@ li{
   display: flex;
 }
 
+p a{
+  color: aqua;
+}
+
 .my-footer > p {
   padding-left: 10px;
   margin: 0;
