@@ -13,7 +13,12 @@ export function isEmpty(value) {
   return value === null;
 }
 
-function Results( {searchFilter, meteors, handleMeteoriteZoom } ){
+/**
+ * @author Kayci Davila
+ * @param {@} param0 
+ * @returns 
+ */
+function Results( { userId, handleRating, searchFilter, meteors, handleMeteoriteZoom } ){
 
   if (meteors.length > 0){
     return(
@@ -32,11 +37,16 @@ function Results( {searchFilter, meteors, handleMeteoriteZoom } ){
           return false;
             
         }).map(meteor => 
-          <Card key={meteor.name} 
-            meteor = {meteor} 
+          <Card
+            userId={userId}
+            key={meteor.name} 
+            meteor={meteor}
             handleMeteoriteZoom={()=>{
               handleMeteoriteZoom(meteor);
-            }}/>)}
+            }}
+            handleRating={handleRating}
+          />
+        )}
       </div>
     );
   }

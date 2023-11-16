@@ -1,0 +1,28 @@
+.rating-button {
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  padding: 5px;
+  margin: 0 2px;
+}
+
+.top-sec {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rating-sec {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+.rating-numbers > p {
+  margin: 0 2px;
+  width: 25px;
+  height: 15px;
+}
+
+.rating-numbers {
+  display: flex;
+}
