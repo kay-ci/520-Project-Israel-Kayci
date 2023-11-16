@@ -4,6 +4,7 @@ import { CiLocationOn } from 'react-icons/ci';
 import * as countryCoder from '@rapideditor/country-coder';
 
 function Card({meteor, handleMeteoriteZoom}){
+  
   return(
     <div className="card-div" onClick={handleMeteoriteZoom}>
       <p className="meteorite-title">{meteor.name} - {meteor.year}</p>
