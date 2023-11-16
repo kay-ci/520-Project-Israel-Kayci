@@ -47,12 +47,20 @@ describe('GET meteorites/', () => {
   test('Response with invalid year input', async () => {
     // Invalid request since the min year is greater than max year
     const response = await request(app).get('/meteorites/?minYear=2020&maxYear=1990');
+
+    // Invalid request since value is not a number
+    const responseNaN = await request(app).get('/meteorites/?minYear=asd&maxYear=asd');
     
-    expect(response.status).toEqual(400);
-    expect(response.body).toEqual({
+    const ExpectedBody = {
       'status':400,
       'message': 'Invalid year range'
-    });
+    };
+
+    expect(response.status).toEqual(400);
+    expect(response.body).toEqual(ExpectedBody);
+
+    expect(responseNaN.status).toEqual(400);
+    expect(responseNaN.body).toEqual(ExpectedBody);
   });
 
   test('Response with invalid mass input', async () => {
