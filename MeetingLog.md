@@ -118,3 +118,31 @@ solution: Carlton gave an extension!
 3. FIGURE OUT RATING SYSTEM
 4. tests
 
+# November 21 2023, Tuesday, on call
+## retrospective Meeting
+Attendees: Kayci, Israel
+Note taker: Kayci
+
+## Problems
+None 
+
+## Discussion
+### What went well?
+- Our time management improved. 
+- Communicating tasks was well done.
+- distribution of tasks was evenly distributed.
+
+### What challenges did you or the team encounter?
+- Managing our data, to implement more user interactions
+
+### What needs to change?
+- Nothing much.
+
+### What should the team/individuals continue doing?
+- keep track of the pace of our work and make sure we stay on top of it!
+- continue using gitlab issues
+
+### Is there anything that needs to change about your overall project plan
+- The way we are displaying the data (Adding button for top 10 biggest meteorites for example.)
+- We both will come up with 2 different ways to display the data and implement them.
+
