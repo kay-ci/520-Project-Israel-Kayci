@@ -1,16 +1,30 @@
-import { Viewer, Entity } from 'resium';
-import { Cartesian3 } from 'cesium';
+import { Viewer, Entity, CameraFlyTo } from 'resium';
+import { Cartesian3, LabelStyle, VerticalOrigin } from 'cesium';
 
-const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
-const pointGraphics = { pixelSize: 10 };
+function Globe({meteors, FlyToProps}){
 
-function Globe(){
   return (
     <div className="globe-div">
-      <Viewer >
-        <Entity position={position} point={pointGraphics} />
+      <Viewer className="viewer">
+        {FlyToProps && <CameraFlyTo {...FlyToProps}/>}
+        {meteors.map(meteor => 
+          <Entity key = {meteor.name}
+            position = {Cartesian3.fromDegrees(
+              parseFloat(meteor.geolocation.coordinates[0]), 
+              parseFloat(meteor.geolocation.coordinates[1]), 100)}
+            point = {{pixelSize: 10}}
+            label = {{
+              text: meteor.name,
+              font: '20px monospace',
+              style: LabelStyle.FILL_AND_OUTLINE,
+              outlineWidth: 20,
+              verticalOrigin: VerticalOrigin.BOTTOM,
+              pixelOffset: new Cartesian3(0, -9),
+            }}
+          />)}
       </Viewer>
     </div>
   );
 }
+
 export default Globe;

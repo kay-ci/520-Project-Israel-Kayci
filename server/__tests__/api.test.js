@@ -1,73 +1,102 @@
-// const express = require('express');
-// const app = express();
-// //const endpoint = require('../src/routes/api.js');
-// const request = require('supertest');
-// const axios = require('axios');
-// jest.mock('axios');
-// const mockData = [{ data : [
-//   {
-//     id: '30409',
-//     name: 'Zinder',
-//     class: 'Pallasite, ungrouped',
-//     mass: '46',
-//     year: '1999',
-//     geolocation: { type: 'Point', coordinates: ['8.96667', '13.78333'] }
-//   },
-//   {
-//     id: '30410',
-//     name: 'Zlin',
-//     class: 'H4',
-//     mass: '3.3',
-//     year: '1939',
-//     geolocation: { type: 'Point', coordinates: ['17.66667', '49.25'] }
-//   },
-//   {
-//     id: '31357',
-//     name: 'Zubkovsky',
-//     class: 'L6',
-//     mass: '2167',
-//     year: '2003',
-//     geolocation: { type: 'Point', coordinates: ['41.5046', '49.78917'] }
-//   },
-//   {
-//     id: '30414',
-//     name: 'Zulu Queen',
-//     class: 'L3.7',
-//     mass: '200',
-//     year: '1976',
-//     geolocation: { type: 'Point', coordinates: ['-115.68333', '33.98333'] }
-//   }
-// ]}];
+const app = require('../api.js');
+const request = require('supertest');
+const db = require('../src/db/db');
+const mockData = require('./mockData');
 
-// beforeEach(() => {
-//   axios.get.mockReset();
-// });
-// // Mock the axios.get method
-// axios.get.mockResolvedValue({ data: mockData });
-// // app.get('meteorites', endpoint);
+/**
+ * Mocking the DB
+ * Data has to be minimum length 7 to get data back
+ */
+jest.mock('../src/db/db' );
+const mockReadAll = jest.spyOn(db.prototype, 'readAllCache');
+mockReadAll.mockResolvedValue(mockData);
 
-// describe('GET /meteorites', () =>{
-//   const response = request(app).get('/meteorites?minYear=1990&maxYear=2003');
-//   expect(response.body).toEqual(
-//     {data:[{
-//       id: '30409',
-//       name: 'Zinder',
-//       class: 'Pallasite, ungrouped',
-//       mass: '46',
-//       year: '1999',
-//       geolocation: { type: 'Point', coordinates: ['8.96667', '13.78333'] }
-//     },
-//     {
-//       id: '31357',
-//       name: 'Zubkovsky',
-//       class: 'L6',
-//       mass: '2167',
-//       year: '2003',
-//       geolocation: { type: 'Point', coordinates: ['41.5046', '49.78917'] }
-//     }]}
-//   );
-//   expect(response.statusCode).toEqual(200);
-// });
-test('placeholder',  () => {
-  expect(2).toEqual(2);
+describe('GET meteorites/', () => {
+  test('Response with no parameters', async () => {
+    const response = await request(app).get('/meteorites/');
+
+    expect(response.status).toEqual(200);
+    expect(response.body).toEqual({
+      'status': 200,
+      'page': 1,
+      'pages':1,
+      'params': {}, 
+      'data': mockData
+    });
+  });
+
+  test('Response with query parameters', async () => {
+    const response = await request(app).
+      get('/meteorites/?minYear=1800&maxYear=2023&minMass=0&maxMass=1000');
+    
+    expect(response.status).toEqual(200);
+    expect(response.body).toEqual({
+      'status': 200,
+      'page': 1,
+      'pages':1,
+      'params': {
+        'minYear':1800, 
+        'maxYear':2023,
+        'minMass':0,
+        'maxMass':1000
+      }, 
+      'data': mockData
+    });
+  });
+
+  describe('Year query tests', () => {
+    test('Response with invalid year range', async () => {
+      const ExpectedBody = {
+        'status':400,
+        'message': 'Invalid year range'
+      };
+  
+      // Invalid request since the min year is greater than max year
+      const response = await request(app).get('/meteorites/?minYear=2020&maxYear=1990');
+  
+      expect(response.status).toEqual(400);
+      expect(response.body).toEqual(ExpectedBody);  
+    });
+  
+    test('Response with invalid year input', async () => {
+      const ExpectedBody = {
+        'status':400,
+        'message': 'Invalid year range'
+      };
+  
+      // Invalid request since value is not a number
+      const responseNaN = await request(app).get('/meteorites/?minYear=asd&maxYear=asd');
+  
+      expect(responseNaN.status).toEqual(400);
+      expect(responseNaN.body).toEqual(ExpectedBody);
+    });
+  });
+  
+  describe('Mass query tests', () => {
+    test('Response with invalid mass range', async () => {
+      // Invalid request since the min mass is greater than max mass
+      const response = await request(app).get('/meteorites/?minMass=2000&maxMass=10');
+  
+      const ExpectedBody = {
+        'status':400,
+        'message': 'Invalid mass range'
+      };
+  
+      expect(response.status).toEqual(400);
+      expect(response.body).toEqual(ExpectedBody);
+    });
+  
+    test('Response with invalid mass input', async () => {
+      const ExpectedBody = {
+        'status':400,
+        'message': 'Invalid mass range'
+      };
+  
+      // Invalid request since value is not a number
+      const responseNaN = await request(app).get('/meteorites/?minMass=asd&maxMass=asdsa');
+  
+      expect(responseNaN.status).toEqual(400);
+      expect(responseNaN.body).toEqual(ExpectedBody);
+    });
+  });
 });

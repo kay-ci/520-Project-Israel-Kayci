@@ -1,12 +1,12 @@
 import './App.css';
-import Globe from './components/Globe';
-import Results from './components/Results';
+import Main from './components/Main';
+import Footer from './components/Footer';
 
 function App() {
   return (
     <div className="app">
-      <Results/>
-      <Globe/>
+      <Main/>
+      <Footer/>
     </div>
   );
 }
