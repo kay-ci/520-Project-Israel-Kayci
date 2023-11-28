@@ -85,9 +85,13 @@ archive-and-send-deploy:
   script:
     - tar -cvzf $RELEASE_FILE client/build
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "  ")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - scp -r -i $AWS_PRIVATE_KEY $RELEASE_FILE bitnami@$AWS_HOST:~/520-Project-Israel-Kayci/client
-    - ssh -i $AWS_PRIVATE_KEY bitnami@$AWS_HOST "cd 520-Project-Israel-Kayci && git fetch --all --tags && git checkout tags/$CI_COMMIT_TAG"
-    - ssh -i $AWS_PRIVATE_KEY bitnami@$AWS_HOST "rm -rf ~/520-Project-Israel-Kayci/client/build && tar -xvzf $RELEASE_FILE ~/520-Project-Israel-Kayci/client/build"
+    - ssh bitnami@$AWS_HOST "cd 520-Project-Israel-Kayci && git fetch --all --tags && git checkout tags/$CI_COMMIT_TAG"
+    - ssh bitnami@$AWS_HOST "rm -rf ~/520-Project-Israel-Kayci/client/build && tar -xvzf $RELEASE_FILE ~/520-Project-Israel-Kayci/client/build"
   artifacts:
     expire_in: "30 days"
     paths:
