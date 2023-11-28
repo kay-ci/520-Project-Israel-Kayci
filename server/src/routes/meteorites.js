@@ -4,7 +4,63 @@ const DB = require('../db/db');
 const db = new DB();
 const { paginate } = require('../utils/pagination.js');
 
-
+/**
+ * @swagger
+ * /meteorites:
+ *   get:
+ *     summary: Retrieve a list of meteorites
+ *     description: Retrieve a list of meteorites while using query parameters to filter.
+ *                  Used to display meteorite info and paginates the data to 7 items per page
+ *     parameters:
+ *       - in: query
+ *         name: minYear
+ *         required: false
+ *         description: minimum year of found meteorites
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: maxYear
+ *         required: false
+ *         description: Maximum year of found meteorites
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: minMass
+ *         required: false
+ *         description: Minimum mass of found meteorites
+ *         schema:
+ *           type: number
+ *       - in: query
+ *         name: maxMass
+ *         required: false
+ *         description: Maximum mass of found meteorites
+ *         schema:
+ *           type: number
+ *     responses:
+ *       200:
+ *         description: A list of meteorites.
+ *         
+ *         schema:
+ *           type: integer
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The user ID.
+ *                         example: 0
+ *                       name:
+ *                         type: string
+ *                         description: The user's name.
+ *                         example: Leanne Graham
+ */
 router.get('/', async (req, res) => {
   try {
 
