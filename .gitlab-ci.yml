@@ -85,6 +85,7 @@ archive-and-send-deploy:
     - 'cd server && npm ci --omit dev && cd ../'
   script:
     - rm -rf server/node_modules
+    - rm -rf server/.npm
     - tar -cvzf $RELEASE_FILE client/build server/
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
@@ -93,6 +94,7 @@ archive-and-send-deploy:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - scp -r $RELEASE_FILE bitnami@$AWS_HOST:~/520-Project-Israel-Kayci/
     - ssh bitnami@$AWS_HOST "rm -rf ~/520-Project-Israel-Kayci/client/build && cd ~/520-Project-Israel-Kayci/ && tar -xvzf $RELEASE_FILE"
+    - rm $RELEASE_FILE
   artifacts:
     expire_in: "30 days"
     paths:
