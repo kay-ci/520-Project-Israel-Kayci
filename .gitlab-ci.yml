@@ -83,9 +83,8 @@ archive-and-send-deploy:
   before_script: 
     - 'cd server && npm ci --omit dev && cd ../'
   script:
-    - "mv client/build .; rm -rf client; mkdir client; mv build client;"
     - tar -cvzf $RELEASE_FILE client/build
-    - apt-get install scp openssh
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - scp -r -i $AWS_PRIVATE_KEY $RELEASE_FILE bitnami@$AWS_HOST:~/520-Project-Israel-Kayci/client
     - ssh -i $AWS_PRIVATE_KEY bitnami@$AWS_HOST "cd 520-Project-Israel-Kayci && git fetch --all --tags && git checkout tags/$CI_COMMIT_TAG"
     - ssh -i $AWS_PRIVATE_KEY bitnami@$AWS_HOST "rm -rf ~/520-Project-Israel-Kayci/client/build && tar -xvzf $RELEASE_FILE ~/520-Project-Israel-Kayci/client/build"
