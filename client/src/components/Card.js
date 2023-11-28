@@ -96,7 +96,7 @@ function Card({userId, handleRating, meteor, handleMeteoriteZoom}){
         <div className="info-div">
           <p className="info-title"> Location <CiLocationOn/></p>
           <p className="info"> 
-            {meteor.geolocation.coordinates[0]}&deg; {meteor.geolocation.coordinates[1]}&deg;
+            {meteor.geolocation.coordinates[1]}&deg; {meteor.geolocation.coordinates[0]}&deg;
             {' '}{countryCoder.emojiFlag(meteor.geolocation.coordinates)}
           </p>
         </div>
