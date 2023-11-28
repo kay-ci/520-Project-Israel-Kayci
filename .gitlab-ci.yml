@@ -94,7 +94,7 @@ archive-and-send-deploy:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - scp -r $RELEASE_FILE bitnami@$AWS_HOST:~/520-Project-Israel-Kayci/
     - ssh bitnami@$AWS_HOST "rm -rf ~/520-Project-Israel-Kayci/client/build && cd ~/520-Project-Israel-Kayci/ && tar -xvzf $RELEASE_FILE"
-    - rm $RELEASE_FILE
+    - ssh bitnami@$AWS_HOST "rm ~/520-Project-Israel-Kayci/$RELEASE_FILE"
   artifacts:
     expire_in: "30 days"
     paths:
