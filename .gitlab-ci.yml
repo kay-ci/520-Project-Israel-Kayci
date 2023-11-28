@@ -8,6 +8,7 @@ default:
         - server/package-lock.json
         - client/package-lock.json
     paths:
+      - client/build
       - server/.npm/
       - client/.npm/
   # run this before every job; will hit the cache first
