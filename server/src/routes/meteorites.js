@@ -36,10 +36,16 @@ const { paginate } = require('../utils/pagination.js');
  *         description: Maximum mass of found meteorites
  *         schema:
  *           type: number
+ *       - in: query
+ *         name: page
+ *         required: false
+ *         description: page of results
+ *         schema:
+ *           type: number
+ * 
  *     responses:
  *       200:
- *         description: A list of meteorites.
- *         
+ *         description: A list of meteorites. 
  *         schema:
  *           type: integer
  *         content:
@@ -47,19 +53,87 @@ const { paginate } = require('../utils/pagination.js');
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 pages:
+ *                   type: integer
+ *                   example: 100
+ *                 params:
+ *                   type: object
  *                 data:
  *                   type: array
  *                   items:
  *                     type: object
  *                     properties:
+ *                       _id:
+ *                         type: string
+ *                         description: The meteorite's full ID.
+ *                         example: 65551337c6903aae33dbb404
  *                       id:
- *                         type: integer
- *                         description: The user ID.
- *                         example: 0
+ *                         type: string
+ *                         description: The meteorite's short ID.
+ *                         example: 370
  *                       name:
  *                         type: string
- *                         description: The user's name.
- *                         example: Leanne Graham
+ *                         description: The meteorite's name.
+ *                         example: Achiras
+ *                       class:
+ *                         type: string
+ *                         description: The meteorite's class name.
+ *                         example: L6
+ *                       mass:
+ *                         type: string
+ *                         description: The meteorite's mass in grams.
+ *                         example: 780
+ *                       year:
+ *                         type: string
+ *                         description: The year the meteorite crashed.
+ *                         example: 1902
+ *                       geolocation:
+ *                         type: object
+ *                         properties:
+ *                           type:
+ *                             type: string
+ *                             description: 
+ *                             example: Point
+ *                           coordinates: 
+ *                             type: array
+ *                             items:
+ *                               example: -64.95, -33.16667
+ *       400:
+ *         description: Invalid query parameters
+ *         schema:
+ *          type: integer
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  example: 400
+ *                message:
+ *                  type: string
+ *                  example: Invalid year range
+ *       500:
+ *         description: Internal server error
+ *         schema:
+ *          type: integer
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  example: 500
+ *                message:
+ *                  type: string
+ *                  example: Meteorite data could not be read
  */
 router.get('/', async (req, res) => {
   try {

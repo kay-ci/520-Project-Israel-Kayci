@@ -12,7 +12,7 @@ const swaggerDefinition = {
   },
   servers: [
     {
-      url: 'http://3.96.191.159',
+      url: 'http://localhost:3000', //'http://3.96.191.159',
       description: 'Nasa Meteorites visualizer',
     },
   ],
