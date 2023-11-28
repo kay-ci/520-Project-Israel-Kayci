@@ -95,6 +95,7 @@ archive-and-send-deploy:
     - scp -r $RELEASE_FILE bitnami@$AWS_HOST:~/520-Project-Israel-Kayci/
     - ssh bitnami@$AWS_HOST "rm -rf ~/520-Project-Israel-Kayci/client/build && cd ~/520-Project-Israel-Kayci/ && tar -xvzf $RELEASE_FILE"
     - ssh bitnami@$AWS_HOST "rm ~/520-Project-Israel-Kayci/$RELEASE_FILE"
+    - ssh bitnami@$AWS_HOST "forever restartall"
   artifacts:
     expire_in: "30 days"
     paths:
