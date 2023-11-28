@@ -69,6 +69,7 @@ build-frontend:
     when: on_success
     paths:
       - client/build
+      - server
 
 
 archive-and-send-deploy:
@@ -83,7 +84,8 @@ archive-and-send-deploy:
   before_script: 
     - 'cd server && npm ci --omit dev && cd ../'
   script:
-    - tar -cvzf $RELEASE_FILE client/build
+    - rm -rf server/node_modules
+    - tar -cvzf $RELEASE_FILE client/build server/
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$AWS_PRIVATE_KEY")
