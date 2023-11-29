@@ -116,7 +116,7 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
       setMeteors(json);
 
     }).catch(error => {
-      // Display here error
+      // Display error to user
       errorBox.textContent = error.message;
     });
     
@@ -139,6 +139,7 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
     fetch(`/meteorites/on-latitudes?page=${params.page}`).then(response => {
 
       if (response.ok){
+        document.querySelector('.error-box').textContent = '';
         return response.json();
       }
 
