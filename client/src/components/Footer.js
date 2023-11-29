@@ -9,7 +9,9 @@ function Footer(){
     <>
       <footer className="my-footer">
         <button className="foot-button" onClick={() => setPopup(!popup)}>?</button>
-        <p>Israel Aristide - Kayci Davilla 2023</p>
+        <p>Israel Aristide - Kayci Davila 2023</p>
+        
+
       </footer>
 
       {popup && <section id="popup">
