@@ -93,21 +93,32 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
   function sendQuery(params) {
     
     lastQuery.current = params;
+    const errorBox = document.querySelector('.error-box');
 
     fetch(
       `/meteorites?minYear=${params.minYear}&maxYear=${params.maxYear}` + 
       `&minMass=${params.minMass}&maxMass=${params.maxMass}&page=${params.page}`
     ).then(res => {
-      
-      if (res.ok) {
-        return res.json();
-      } 
 
-      return Promise.reject('Could not fetch meteorites');
+      if (res.ok) {
+        errorBox.textContent = '';
+        return res.json();
+
+      }else {
+        return res.json().then((errorRes)=>{
+          throw new Error(errorRes.message);
+        });
+        
+      } 
 
     }).then(json => {
       setMeteors(json);
+
+    }).catch(error => {
+      // Display here error
+      errorBox.textContent = error.message;
     });
+    
 
   }
 
