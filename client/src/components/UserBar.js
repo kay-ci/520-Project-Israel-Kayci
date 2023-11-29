@@ -142,10 +142,13 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
         setSearchFilter={setSearchFilter} 
         sendQuery={sendQuery} 
         setShowLatitude={setShowLatitude}
+        homeView={homeView}
       />
       <button 
         onClick={() => {
-          fetchMeteoritesOnLat({page: 1}); setShowLatitude(!showLatitude);
+          fetchMeteoritesOnLat({page: 1}); 
+          setShowLatitude(!showLatitude);
+          homeView();
         }} 
         className="latitude-button">View Meteorites Near Major Latitudes</button>
       <Results

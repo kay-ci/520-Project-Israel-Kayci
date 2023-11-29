@@ -56,7 +56,7 @@ function MassSelect({ id, max, min, defValue }) {
  * Contains all the filtering options.
  * @author Israel Aristide
  */
-function FilterBar({ setSearchFilter, sendQuery, setShowLatitude}){
+function FilterBar({ setSearchFilter, sendQuery, setShowLatitude, homeView}){
 
   /**
    * Gathers the filter params input by the user and sends the query using the
@@ -134,7 +134,10 @@ function FilterBar({ setSearchFilter, sendQuery, setShowLatitude}){
       </div>
 
       <div className="search-btn">
-        <button onClick={createQuery}>Search</button>
+        <button onClick={ ()=>{
+          createQuery();
+          homeView();
+        }}>Search</button>
       </div>
 
     </div>
