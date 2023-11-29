@@ -182,18 +182,23 @@ router.get('/', async (req, res) => {
     // Filter data by query
     const filteredData = filter(meteoriteData, minYear, maxYear, minMass, maxMass, className);
     const paginated = paginate(filteredData, 7, page);
-    res.json({
-      status: 200,
-      page: page,
-      pages: paginated.pages,
-      params: {
-        minYear: minYear,
-        maxYear: maxYear,
-        minMass: minMass,
-        maxMass: maxMass
-      },
-      data: paginated.page
-    });
+    if (paginated.pages === 0){
+      res.status(404).json({status: 404, message: `Page not found`});
+    }else{
+      res.json({
+        status: 200,
+        page: page,
+        pages: paginated.pages,
+        params: {
+          minYear: minYear,
+          maxYear: maxYear,
+          minMass: minMass,
+          maxMass: maxMass
+        },
+        data: paginated.page
+      });
+    }
+    
 
   }catch(e){
     res.status(500).json({status: 500, message: `Meteorite data could not be read: ${e}`});
@@ -219,20 +224,24 @@ router.get('/on-latitudes', async (req, res) => {
 
     // Get all meteorites on the latitude lines 
     const filteredData = meteoriteData.filter(meteor=>{
-      return onLatitude(meteor, northPole) || onLatitude(meteor, arcticCirlce) || 
-      onLatitude(meteor, tropicCancer) || onLatitude(meteor, equator) || 
-      onLatitude(meteor, tropicCapricorn) || onLatitude(meteor, antarcticCircle) || 
-      onLatitude(meteor, southPole);
+      return nearLatitude(meteor, northPole) || nearLatitude(meteor, arcticCirlce) || 
+      nearLatitude(meteor, tropicCancer) || nearLatitude(meteor, equator) || 
+      nearLatitude(meteor, tropicCapricorn) || nearLatitude(meteor, antarcticCircle) || 
+      nearLatitude(meteor, southPole);
     });
 
     const paginated = paginate(filteredData, 20, page);
 
-    res.json({
-      status: 200,
-      page: page,
-      pages: paginated.pages,
-      data: paginated.page
-    });
+    if (paginated.pages === 0){
+      res.status(404).json({status: 404, message: `Page not found`});
+    }else{
+      res.json({
+        status: 200,
+        page: page,
+        pages: paginated.pages,
+        data: paginated.page
+      });
+    }
 
   }catch(e){
     res.status(500).json({status: 500, message: `Meteorite data could not be read: ${e}`});
@@ -251,14 +260,29 @@ router.use((req, res) => {
   });
 });
 
-function onLatitude(meteor, lat){
+/**
+ * Verify if meteor is near input latitude
+ * @author Kayci Davila
+ * @param {Object} meteor - The meteor object to check for proximity.
+ * @param {number} latitude - The latitude to compare with the meteor's position.
+ * @returns {boolean} Returns true if the meteor is near the specified latitude, otherwise false.
+ */
+function nearLatitude(meteor, latitude){
+
   const latitudeRange = 2;
-  return Math.abs(parseFloat(meteor.geolocation.coordinates[1] - lat)) <= latitudeRange;
+  return Math.abs(parseFloat(meteor.geolocation.coordinates[1] - latitude)) <= latitudeRange;
 }
 
 /**
- * @author Kayci Davila
  * Filter through meteorite data. checks if a query parameter is provided.
+ * @author Kayci Davila
+ *  @param {Array} meteoriteData - An array of meteorite data to be filtered.
+ * @param {integer} minYear - The minimum year for filtering meteorites based on their fall year.
+ * @param {number} maxYear - The maximum year for filtering meteorites based on their fall year.
+ * @param {number} minMass - The minimum mass for filtering meteorites based on their mass.
+ * @param {number} maxMass - The maximum mass for filtering meteorites based on their mass.
+ * @param {string} className - The class name for additional filtering criteria.
+ * @returns {Array} - An array of filtered meteorite data based on the provided query parameters.
  */
 function filter(meteoriteData, minYear, maxYear, minMass, maxMass, className){
   return meteoriteData.filter(meteorite => {
