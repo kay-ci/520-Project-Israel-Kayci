@@ -70,6 +70,7 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
    */
   function lastPage() {
     const queryParams = {...lastQuery.current, page:lastQuery.current.page - 1};
+
     if (showLatitude){
       fetchMeteoritesOnLat(queryParams);
     }else{
@@ -114,7 +115,14 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
     
   }
 
+  /**
+   * Creates a fetch to the API of the meteorites near the major latitude lines
+   * @author Kayci Davila
+   * @param {{ page: int }} params 
+   */
   function fetchMeteoritesOnLat(params){
+
+    lastQuery.current.page = params.page;
 
     fetch(`/meteorites/on-latitudes?page=${params.page}`).then(response => {
 
@@ -135,6 +143,11 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
         sendQuery={sendQuery} 
         setShowLatitude={setShowLatitude}
       />
+      <button 
+        onClick={() => {
+          fetchMeteoritesOnLat({page: 1}); setShowLatitude(!showLatitude);
+        }} 
+        className="latitude-button">View Meteorites Near Major Latitudes</button>
       <Results
         userId={userId}
         handleRating={handleRating}
@@ -147,11 +160,6 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
         <p className="page-info">Page {meteors.page} of {meteors.pages}</p>
         <button onClick={nextPage}>Next</button>
       </div>
-      <button 
-        onClick={() => {
-          fetchMeteoritesOnLat({page: 1}); setShowLatitude(!showLatitude);
-        }} 
-        className="latitude-button">Meteorites On Latitude</button>
     </div>
   );
 }
