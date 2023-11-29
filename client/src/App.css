@@ -232,9 +232,39 @@ hr{
   margin: 0;
 }
 
+.latitude-button{
+  background-color: #8E8FFA;
+  border: 2px solid #190482;
+  border-radius: 30px;
+  box-shadow: #190482 4px 4px 0 0;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 0 18px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.latitude-button:hover{
+  background-color: #C2D9FF;
+}
+
+.latitude-button:active{
+  box-shadow: #190482 2px 2px 0 0;
+  transform: translate(2px, 2px);
+}
+
 @media (1px <= width <= 800px) {
   .app{
     height: 100vh;
+  }
+  
+  .latitude-button {
+    min-width: 120px;
+    padding: 0 25px;
   }
 
   .main{
@@ -255,6 +285,7 @@ hr{
 
   .globe-div{
     max-height: 50vh;
+    overflow: scroll;
   }
 
   .card-div{

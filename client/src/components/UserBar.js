@@ -3,7 +3,7 @@ import Results from './Results';
 import { Cartesian3 } from 'cesium';
 import { useRef, useState } from 'react';
 
-function UserBar( { userId, meteors, setMeteors, setFlyToProps } ){
+function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, setShowLatitude } ){
 
   /**
    * Zoom to meteorite location
@@ -54,7 +54,13 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps } ){
    */
   function nextPage() {
     const queryParams = {...lastQuery.current, page:lastQuery.current.page + 1};
-    sendQuery(queryParams);
+
+    if (showLatitude){
+      fetchMeteoritesOnLat(queryParams);
+    }else{
+      sendQuery(queryParams);
+    }
+
     homeView();
   }
 
@@ -64,7 +70,12 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps } ){
    */
   function lastPage() {
     const queryParams = {...lastQuery.current, page:lastQuery.current.page - 1};
-    sendQuery(queryParams);
+
+    if (showLatitude){
+      fetchMeteoritesOnLat(queryParams);
+    }else{
+      sendQuery(queryParams);
+    }
     homeView();
   }
 
@@ -104,9 +115,42 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps } ){
     
   }
 
+  /**
+   * Creates a fetch to the API of the meteorites near the major latitude lines
+   * @author Kayci Davila
+   * @param {{ page: int }} params 
+   */
+  function fetchMeteoritesOnLat(params){
+
+    lastQuery.current.page = params.page;
+
+    fetch(`/meteorites/on-latitudes?page=${params.page}`).then(response => {
+
+      if (response.ok){
+        return response.json();
+      }
+
+      return Promise.reject('Could not fetch meteorites');
+    }).then(json => {
+      setMeteors(json);
+    });
+  }
+
   return (
     <div className="user-bar">
-      <FilterBar setSearchFilter={setSearchFilter} sendQuery={sendQuery}/>
+      <FilterBar 
+        setSearchFilter={setSearchFilter} 
+        sendQuery={sendQuery} 
+        setShowLatitude={setShowLatitude}
+        homeView={homeView}
+      />
+      <button 
+        onClick={() => {
+          fetchMeteoritesOnLat({page: 1}); 
+          setShowLatitude(!showLatitude);
+          homeView();
+        }} 
+        className="latitude-button">View Meteorites Near Major Latitudes</button>
       <Results
         userId={userId}
         handleRating={handleRating}

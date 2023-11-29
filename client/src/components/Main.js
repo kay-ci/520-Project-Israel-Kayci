@@ -9,6 +9,7 @@ function Main() {
   const [meteors, setMeteors] = useState({data:[], page:0, pages:0});
   const [FlyToProps, setFlyToProps] = useState(null);
   const [userId, setUserId] = useState('0');
+  const [showLatitude, setShowLatitude] = useState(false);
 
   useEffect(() => {
 
@@ -33,8 +34,10 @@ function Main() {
         meteors={meteors} 
         setMeteors={setMeteors} 
         setFlyToProps={setFlyToProps}
+        showLatitude={showLatitude}
+        setShowLatitude={setShowLatitude}
       />
-      <Globe meteors={meteors.data} FlyToProps={FlyToProps}/>
+      <Globe meteors={meteors.data} FlyToProps={FlyToProps} showLatitude={showLatitude} />
     </section>
   );
 
