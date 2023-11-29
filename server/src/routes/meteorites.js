@@ -200,6 +200,46 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/on-latitudes', async (req, res) => {
+  try{
+
+    // Data
+    const meteoriteData = await db.readAllCache();
+    
+    const page = parseInt(req.query.page ? req.query.page : 1);
+
+    // Major latitude lines
+    const northPole = 90;
+    const arcticCirlce = 66.5;
+    const tropicCancer = 23.5;
+    const equator = 0;
+    const tropicCapricorn = -23.5;
+    const antarcticCircle = -66.5;
+    const southPole = -90;
+
+    // Get all meteorites on the latitude lines 
+    const filteredData = meteoriteData.filter(meteor=>{
+      return onLatitude(meteor, northPole) || onLatitude(meteor, arcticCirlce) || 
+      onLatitude(meteor, tropicCancer) || onLatitude(meteor, equator) || 
+      onLatitude(meteor, tropicCapricorn) || onLatitude(meteor, antarcticCircle) || 
+      onLatitude(meteor, southPole);
+    });
+
+    const paginated = paginate(filteredData, 20, page);
+
+    res.json({
+      status: 200,
+      page: page,
+      pages: paginated.pages,
+      data: paginated.page
+    });
+
+  }catch(e){
+    res.status(500).json({status: 500, message: `Meteorite data could not be read: ${e}`});
+  }
+});
+
+
 router.post('/:meteorite/rate', (req, res) => {
   // To Implement
   res.send('POST request to the homepage');
@@ -211,10 +251,14 @@ router.use((req, res) => {
   });
 });
 
+function onLatitude(meteor, lat){
+  const latitudeRange = 2;
+  return Math.abs(parseFloat(meteor.geolocation.coordinates[1] - lat)) <= latitudeRange;
+}
+
 /**
  * @author Kayci Davila
  * Filter through meteorite data. checks if a query parameter is provided.
- * (to test)
  */
 function filter(meteoriteData, minYear, maxYear, minMass, maxMass, className){
   return meteoriteData.filter(meteorite => {
