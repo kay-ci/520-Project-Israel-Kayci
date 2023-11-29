@@ -3,7 +3,7 @@ import Results from './Results';
 import { Cartesian3 } from 'cesium';
 import { useRef, useState } from 'react';
 
-function UserBar( { userId, meteors, setMeteors, setFlyToProps } ){
+function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, setShowLatitude } ){
 
   /**
    * Zoom to meteorite location
@@ -54,7 +54,13 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps } ){
    */
   function nextPage() {
     const queryParams = {...lastQuery.current, page:lastQuery.current.page + 1};
-    sendQuery(queryParams);
+
+    if (showLatitude){
+      fetchMeteoritesOnLat(queryParams);
+    }else{
+      sendQuery(queryParams);
+    }
+
     homeView();
   }
 
@@ -64,7 +70,11 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps } ){
    */
   function lastPage() {
     const queryParams = {...lastQuery.current, page:lastQuery.current.page - 1};
-    sendQuery(queryParams);
+    if (showLatitude){
+      fetchMeteoritesOnLat(queryParams);
+    }else{
+      sendQuery(queryParams);
+    }
     homeView();
   }
 
@@ -104,6 +114,22 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps } ){
     
   }
 
+  function fetchMeteoritesOnLat(params){
+
+    lastQuery.current = params;
+
+    fetch(`/meteorites/on-latitudes?page=${params.page}`).then(response => {
+
+      if (response.ok){
+        return response.json();
+      }
+
+      return Promise.reject('Could not fetch meteorites');
+    }).then(json => {
+      setMeteors(json);
+    });
+  }
+
   return (
     <div className="user-bar">
       <FilterBar setSearchFilter={setSearchFilter} sendQuery={sendQuery}/>
@@ -119,6 +145,11 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps } ){
         <p className="page-info">Page {meteors.page} of {meteors.pages}</p>
         <button onClick={nextPage}>Next</button>
       </div>
+      <button 
+        onClick={() => {
+          fetchMeteoritesOnLat({page: 1}); setShowLatitude(!showLatitude);
+        }} 
+        className="latitude-button">Meteorites On Latitude</button>
     </div>
   );
 }
