@@ -29,7 +29,7 @@ const mockData = [
     class: 'Pallasite, ungrouped',
     mass: '46',
     year: '1999',
-    geolocation: { type: 'Point', coordinates: ['8.96667', '13.78333'] }
+    geolocation: { type: 'Point', coordinates: ['8.96667', '-25.5'] }
   },
   {
     id: '30410',
@@ -37,7 +37,7 @@ const mockData = [
     class: 'H4',
     mass: '3.3',
     year: '1939',
-    geolocation: { type: 'Point', coordinates: ['17.66667', '49.25'] }
+    geolocation: { type: 'Point', coordinates: ['17.66667', '92.3'] }
   },
   {
     id: '31357',
@@ -45,7 +45,7 @@ const mockData = [
     class: 'L6',
     mass: '432',
     year: '2003',
-    geolocation: { type: 'Point', coordinates: ['41.5046', '49.78917'] }
+    geolocation: { type: 'Point', coordinates: ['41.5046', '90.2'] }
   },
   {
     id: '31357',
@@ -53,7 +53,7 @@ const mockData = [
     class: 'L6',
     mass: '999',
     year: '2003',
-    geolocation: { type: 'Point', coordinates: ['41.5046', '49.78917'] }
+    geolocation: { type: 'Point', coordinates: ['41.5046', '92'] }
   },
 ];
 
