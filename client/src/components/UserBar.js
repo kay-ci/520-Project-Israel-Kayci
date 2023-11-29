@@ -99,17 +99,17 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
       `/meteorites?minYear=${params.minYear}&maxYear=${params.maxYear}` + 
       `&minMass=${params.minMass}&maxMass=${params.maxMass}&page=${params.page}`
     ).then(res => {
-
+      
       if (res.ok) {
         errorBox.textContent = '';
         return res.json();
-
-      }else {
+      }else{
         return res.json().then((errorRes)=>{
+
+          // Remove any previously displayed meteors
           setMeteors({data:[], page:0, pages:0});
           throw new Error(errorRes.message);
         });
-        
       } 
 
     }).then(json => {
