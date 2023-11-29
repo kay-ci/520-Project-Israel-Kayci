@@ -119,6 +119,21 @@ const { paginate } = require('../utils/pagination.js');
  *                message:
  *                  type: string
  *                  example: Invalid year range
+ *       404:
+ *         description: Invalid page query parameter
+ *         schema:
+ *          type: integer
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  example: 404
+ *                message:
+ *                  type: string
+ *                  example: Page not found
  *       500:
  *         description: Internal server error
  *         schema:
@@ -205,6 +220,112 @@ router.get('/', async (req, res) => {
   }
 });
 
+
+/**
+ * @swagger
+ * /meteorites/on-latitudes:
+ *   get:
+ *     summary: Retrieve a list of meteorites near latitude
+ *     description: Retrieve a list of meteorites near the 7 Major Latitude including
+ *                  the North Pole, Arctic Cirlce, Tropic of Cancer, Equator, Tropic of Capricorn,
+ *                  Antarctic Circle, and South Pole 
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         required: false
+ *         description: page of results
+ *         schema:
+ *           type: number
+ *     responses:
+ *       200:
+ *         description: page containing a list of up to 20 meteorites. 
+ *         schema:
+ *           type: integer
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 pages:
+ *                   type: integer
+ *                   example: 100
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                         description: The meteorite's full ID.
+ *                         example: 65551337c6903aae33dbb404
+ *                       id:
+ *                         type: string
+ *                         description: The meteorite's short ID.
+ *                         example: 370
+ *                       name:
+ *                         type: string
+ *                         description: The meteorite's name.
+ *                         example: Achiras
+ *                       class:
+ *                         type: string
+ *                         description: The meteorite's class name.
+ *                         example: L6
+ *                       mass:
+ *                         type: string
+ *                         description: The meteorite's mass in grams.
+ *                         example: 780
+ *                       year:
+ *                         type: string
+ *                         description: The year the meteorite crashed.
+ *                         example: 1902
+ *                       geolocation:
+ *                         type: object
+ *                         properties:
+ *                           type:
+ *                             type: string
+ *                             description: 
+ *                             example: Point
+ *                           coordinates: 
+ *                             type: array
+ *                             items:
+ *                               example: -64.95, 90.1
+ *       404:
+ *         description: Invalid page query parameter
+ *         schema:
+ *          type: integer
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  example: 404
+ *                message:
+ *                  type: string
+ *                  example: Page not found
+ *       500:
+ *         description: Internal server error
+ *         schema:
+ *          type: integer
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  example: 500
+ *                message:
+ *                  type: string
+ *                  example: Meteorite data could not be read
+ */
 router.get('/on-latitudes', async (req, res) => {
   try{
 
