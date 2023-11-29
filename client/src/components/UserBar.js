@@ -116,8 +116,6 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
 
   function fetchMeteoritesOnLat(params){
 
-    lastQuery.current = params;
-
     fetch(`/meteorites/on-latitudes?page=${params.page}`).then(response => {
 
       if (response.ok){
@@ -132,7 +130,11 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
 
   return (
     <div className="user-bar">
-      <FilterBar setSearchFilter={setSearchFilter} sendQuery={sendQuery}/>
+      <FilterBar 
+        setSearchFilter={setSearchFilter} 
+        sendQuery={sendQuery} 
+        setShowLatitude={setShowLatitude}
+      />
       <Results
         userId={userId}
         handleRating={handleRating}

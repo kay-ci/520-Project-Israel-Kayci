@@ -56,7 +56,7 @@ function MassSelect({ id, max, min, defValue }) {
  * Contains all the filtering options.
  * @author Israel Aristide
  */
-function FilterBar({ setSearchFilter, sendQuery }){
+function FilterBar({ setSearchFilter, sendQuery, setShowLatitude}){
 
   /**
    * Gathers the filter params input by the user and sends the query using the
@@ -64,6 +64,9 @@ function FilterBar({ setSearchFilter, sendQuery }){
    * @author Israel Aristide
    */
   function createQuery() {
+
+    // Ensure other mode is cleared
+    setShowLatitude(false);
 
     // Since we know the max values are 1000 - 2023 for the year select
     // Every year's index corresponds to itself - 1000
