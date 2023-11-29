@@ -9,9 +9,9 @@
  */
 function paginate(list, itemsPerPage, selectedPage) {
 
-  const pages = Math.round(list.length / itemsPerPage);
-
-  if (selectedPage > pages || selectedPage < 1) {
+  const pages = Math.ceil(list.length / itemsPerPage);
+  
+  if (list.length === 0 || selectedPage > pages || selectedPage < 1) {
     return {page:[], pages: 0};
   }
 
