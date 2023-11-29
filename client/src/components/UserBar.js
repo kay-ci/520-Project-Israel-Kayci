@@ -106,6 +106,7 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
 
       }else {
         return res.json().then((errorRes)=>{
+          setMeteors({data:[], page:0, pages:0});
           throw new Error(errorRes.message);
         });
         
