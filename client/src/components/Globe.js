@@ -1,5 +1,6 @@
 import { Viewer, Entity, CameraFlyTo } from 'resium';
 import { Cartesian3, LabelStyle, VerticalOrigin, Color } from 'cesium';
+import {memo} from 'react';
 
 function Globe({meteors, FlyToProps, showLatitude}){
   
@@ -72,4 +73,4 @@ function Globe({meteors, FlyToProps, showLatitude}){
   );
 }
 
-export default Globe;
+export default memo(Globe);
