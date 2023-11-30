@@ -209,7 +209,12 @@ function UserBar( {meteors, setMeteors, setFlyToProps, showLatitude, setShowLati
       <div className="user-bar-extras">
         <button 
           onClick={() => {
-            fetchMeteoritesOnLat({page: 1}); 
+            if (!showLatitude) {
+              fetchMeteoritesOnLat({page: 1}); 
+            } else {
+              sendQuery(lastQuery.current);
+            }
+            
             setShowLatitude(!showLatitude);
             showCountryMeteors.current = false;
             homeView();
@@ -217,7 +222,13 @@ function UserBar( {meteors, setMeteors, setFlyToProps, showLatitude, setShowLati
           className="extra-filter-button">View Meteorites Near Major Latitudes</button>
         <button 
           onClick={() => {
-            fetchMeteoritesByCountry({page: 1});
+
+            if (!showCountryMeteors.current) {
+              fetchMeteoritesByCountry({page: 1});
+            } else {
+              sendQuery(lastQuery.current);
+            }
+             
             setShowLatitude(false);
             showCountryMeteors.current = !showCountryMeteors.current;
             homeView();
