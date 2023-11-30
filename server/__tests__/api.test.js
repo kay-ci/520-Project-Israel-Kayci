@@ -155,3 +155,45 @@ describe('GET meteorites/on-latitudes', () => {
     });
   });
 });
+
+describe('GET meteorites/country/{country}', () => {
+  test('404 GET request invalid country', async () => {
+    const response = await request(app).get('/meteorites/country/ooof');
+    expect(response.status).toEqual(404);
+    expect(response.body).toEqual({
+      status: 404,
+      message: `Country not found`
+    });
+  });
+
+  test('404 GET request bad page', async () => {
+    const response = await request(app).get('/meteorites/country/RU?page=900');
+    expect(response.status).toEqual(404);
+    expect(response.body).toEqual({
+      status: 404, 
+      message: `Page not found`
+    });
+  });
+
+});
+
+describe('GET meteorites/countries', () => {
+  test('200 Get all countries', async () => {
+    const response = await request(app).get('/meteorites/countries');
+    expect(response.body).toEqual({
+      status: 200,
+      data: { '🇳🇪': 'NE', '🇨🇿': 'CZ', '🇷🇺': 'RU' } 
+    });
+  });
+});
+
+describe('GET /meteorites/nonexistant pages', () => {
+  test('404 random route', async () => {
+    const response = await request(app).get('/meteorites/adas/ad');
+    expect(response.status).toEqual(404);
+    expect(response.body).toEqual({
+      status: 404, 
+      message: `Page not found`
+    });
+  });
+});

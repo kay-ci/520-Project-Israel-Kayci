@@ -15,11 +15,13 @@ let emojiCache = [];
  */
 function getCountryCache(data) {
   if (countryCache.length === 0) {
+
     countryCache = data.map(x => {
       return countryCoder.iso1A2Code(x.geolocation.coordinates);
     }).filter((value, index, array) => {
-      return array.indexOf(value) === index;
+      return value !== null && array.indexOf(value) === index;
     });
+
   }
 
   return countryCache;
@@ -532,6 +534,9 @@ router.get('/country/:country', async (req, res) => {
         return countryCoder.iso1A2Code(x.geolocation.coordinates) === req.params.country;
       });
 
+    } else {
+      res.status(404).json({status:404, message: 'Country not found'});
+      return;
     }
 
     const paginated = paginate(filteredData, 7, page);
@@ -628,6 +633,7 @@ router.get('/countries', async (req, res) => {
 
 router.use((req, res) => {
   res.status(404).json({
+    status: 404,
     message: 'Page not found'
   });
 });
