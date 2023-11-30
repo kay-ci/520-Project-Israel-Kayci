@@ -11,6 +11,7 @@ Third tool was interacting with the app.
 
 <!-- Also report overall impact on whatdoesmysitecost results before and after all your changes -->
 ### Before whatdoesmysitecost results
+![after](./img/Before.png)
 
 ### After whatdoesmysitecost results
 
