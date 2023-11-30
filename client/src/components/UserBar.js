@@ -1,9 +1,9 @@
 import FilterBar from './FilterBar';
 import Results from './Results'; 
 import { Cartesian3 } from 'cesium';
-import { useRef, useState } from 'react';
+import { useRef, useState} from 'react';
 
-function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, setShowLatitude } ){
+function UserBar( {meteors, setMeteors, setFlyToProps, showLatitude, setShowLatitude } ){
 
   /**
    * Zoom to meteorite location
@@ -46,8 +46,10 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
     page:1
   });
   
-  const [searchFilter, setSearchFilter] = useState('');
+  const showCountryMeteors = useRef(false);
 
+  const [searchFilter, setSearchFilter] = useState('');
+  
   /**
    * Goes to the next page of the search results
    * @author Israel Aristide
@@ -57,10 +59,16 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
 
     if (showLatitude){
       fetchMeteoritesOnLat(queryParams);
-    }else{
-      sendQuery(queryParams);
+      homeView();
+      return;
     }
 
+    if (showCountryMeteors.current) {
+      fetchMeteoritesByCountry(queryParams);
+      return;
+    }
+    
+    sendQuery(queryParams);
     homeView();
   }
 
@@ -73,9 +81,16 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
 
     if (showLatitude){
       fetchMeteoritesOnLat(queryParams);
-    }else{
-      sendQuery(queryParams);
+      homeView();
+      return;
     }
+
+    if (showCountryMeteors.current) {
+      fetchMeteoritesByCountry(queryParams);
+      return;
+    }
+    
+    sendQuery(queryParams);
     homeView();
   }
 
@@ -123,10 +138,6 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
 
   }
 
-  function handleRating(meteorId, rating) {
-    
-  }
-
   /**
    * Creates a fetch to the API of the meteorites near the major latitude lines
    * @author Kayci Davila
@@ -156,6 +167,19 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
     });
   }
 
+  function fetchMeteoritesByCountry(params) {
+    lastQuery.current.page = params.page;
+    fetch(
+      `/meteorites/country/${localStorage.getItem('country')}?page=${params.page}`).then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject('Could not fetch meteorites by country');
+    }).then(json => {
+      setMeteors(json);
+    });
+  }
+
   return (
     <div className="user-bar">
       <FilterBar 
@@ -164,15 +188,24 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
         setShowLatitude={setShowLatitude}
         homeView={homeView}
       />
-      <button 
-        onClick={() => {
-          fetchMeteoritesOnLat({page: 1}); 
-          homeView();
-        }} 
-        className="latitude-button">View Meteorites Near Major Latitudes</button>
+      <div className="user-bar-extras">
+        <button 
+          onClick={() => {
+            fetchMeteoritesOnLat({page: 1}); 
+            showCountryMeteors.current = false;
+            homeView();
+          }} 
+          className="extra-filter-button">View Meteorites Near Major Latitudes</button>
+        <button 
+          onClick={() => {
+            fetchMeteoritesByCountry({page: 1});
+            setShowLatitude(false);
+            showCountryMeteors.current = !showCountryMeteors.current;
+            homeView();
+          }}
+          className="extra-filter-button">View meteorites in my country</button>
+      </div>
       <Results
-        userId={userId}
-        handleRating={handleRating}
         searchFilter={searchFilter} 
         meteors={meteors.data} 
         handleMeteoriteZoom={handleMeteoriteZoom}

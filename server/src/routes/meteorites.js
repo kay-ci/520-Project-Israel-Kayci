@@ -3,6 +3,46 @@ const router = express.Router();
 const DB = require('../db/db');
 const db = new DB();
 const { paginate } = require('../utils/pagination.js');
+const countryCoder = require('country-coder');
+
+let countryCache = [];
+let emojiCache = [];
+
+/**
+ * Get the countries that our data is in.
+ * @author Israel Aristide
+ * @returns 
+ */
+function getCountryCache(data) {
+  if (countryCache.length === 0) {
+    countryCache = data.map(x => {
+      return countryCoder.iso1A2Code(x.geolocation.coordinates);
+    }).filter((value, index, array) => {
+      return array.indexOf(value) === index;
+    });
+  }
+
+  return countryCache;
+}
+
+/**
+ * Get the countries that our data is in as emojis
+ * @author Israel Aristide
+ * @param {*} data 
+ * @returns 
+ */
+function getEmojiCache(data) {
+
+  if (emojiCache.length === 0) {
+    emojiCache = data.map(x => {
+      return countryCoder.emojiFlag(x.geolocation.coordinates);
+    }).filter((value, index, array) => {
+      return array.indexOf(value) === index;
+    });
+  }
+
+  return emojiCache;
+}
 
 /**
  * @swagger
@@ -369,10 +409,221 @@ router.get('/on-latitudes', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /meteorites/country/{country}:
+ *   get:
+ *     summary: Retrieve a list of meteorites in a given country
+ *     description: Retrieve a list of meteorites near a country of your choosing, 
+ *                  avalible countries are shown in the /meteorittes/countries route.
+ *     parameters:
+ *       - in: path
+ *         name: country
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: iso1A2 country code
+ *       - in: query
+ *         name: page
+ *         required: false
+ *         description: page of results
+ *         schema:
+ *           type: number
+ *     responses:
+ *       200:
+ *         description: page containing a list of up to 7 meteorites. 
+ *         schema:
+ *           type: integer
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 pages:
+ *                   type: integer
+ *                   example: 100
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                         description: The meteorite's full ID.
+ *                         example: 65551337c6903aae33dbb404
+ *                       id:
+ *                         type: string
+ *                         description: The meteorite's short ID.
+ *                         example: 370
+ *                       name:
+ *                         type: string
+ *                         description: The meteorite's name.
+ *                         example: Achiras
+ *                       class:
+ *                         type: string
+ *                         description: The meteorite's class name.
+ *                         example: L6
+ *                       mass:
+ *                         type: string
+ *                         description: The meteorite's mass in grams.
+ *                         example: 780
+ *                       year:
+ *                         type: string
+ *                         description: The year the meteorite crashed.
+ *                         example: 1902
+ *                       geolocation:
+ *                         type: object
+ *                         properties:
+ *                           type:
+ *                             type: string
+ *                             description: 
+ *                             example: Point
+ *                           coordinates: 
+ *                             type: array
+ *                             items:
+ *                               example: -64.95, 90.1
+ *       404:
+ *         description: Invalid page query parameter
+ *         schema:
+ *          type: integer
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  example: 404
+ *                message:
+ *                  type: string
+ *                  example: Page not found
+ *       500:
+ *         description: Internal server error
+ *         schema:
+ *          type: integer
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  example: 500
+ *                message:
+ *                  type: string
+ *                  example: Meteorite data could not be read
+ */
+router.get('/country/:country', async (req, res) => {
+  try {
+    const meteoriteData = await db.readAllCache();
+    const countries = getCountryCache(meteoriteData);
+    let filteredData = [];
+    const page = parseInt(req.query.page ? req.query.page : 1);
 
-router.post('/:meteorite/rate', (req, res) => {
-  // To Implement
-  res.send('POST request to the homepage');
+    if (countries.includes(req.params.country)) {
+      
+      filteredData = meteoriteData.filter(x=> {
+        return countryCoder.iso1A2Code(x.geolocation.coordinates) === req.params.country;
+      });
+
+    }
+
+    const paginated = paginate(filteredData, 7, page);
+
+    if (paginated.pages === 0){
+      res.status(404).json({status: 404, message: `Page not found`});
+    } else {
+      return res.json({
+        status: 200,
+        page: page,
+        pages: paginated.pages,
+        data: paginated.page
+      });
+    }
+  }catch(e){
+    res.status(500).json({status: 500, message: `Meteorite data could not be read: ${e}`});
+  }
+
+});
+
+/**
+ * @swagger
+ * /meteorites/countries:
+ *   get:
+ *     summary: Retrieve a list of all available countries in the dataset
+ *     description: Goes through all the meteorites in the dataset and gets all the countries 
+ *                  that meteorites are located in.
+ *     responses:
+ *       200:
+ *         description: page containing a list of up to 7 meteorites. 
+ *         schema:
+ *           type: integer
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 pages:
+ *                   type: integer
+ *                   example: 100
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                        <emoji>:
+ *                         type: string
+ *                         description: The country's ID.
+ *                         example: CA
+ *       500:
+ *         description: Internal server error
+ *         schema:
+ *          type: integer
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  example: 500
+ *                message:
+ *                  type: string
+ *                  example: Countries data could not be read
+ */
+router.get('/countries', async (req, res) => {
+  try {
+    const meteoriteData = await db.readAllCache();
+    const emojis = getEmojiCache(meteoriteData);
+    const countries = getCountryCache(meteoriteData);
+    let data = {};
+
+    countries.map((item, indx) => {
+      const obj = {};
+      obj[emojis[indx]] = item;
+      data = {...data, ...obj};
+    });
+
+    return res.json({
+      status: 200,
+      data: data
+    });
+
+  }catch(e){
+    res.status(500).json({status: 500, message: `Countries data could not be read: ${e}`});
+  }
 });
 
 router.use((req, res) => {
@@ -397,7 +648,7 @@ function nearLatitude(meteor, latitude){
 /**
  * Filter through meteorite data. checks if a query parameter is provided.
  * @author Kayci Davila
- *  @param {Array} meteoriteData - An array of meteorite data to be filtered.
+ * @param {Array} meteoriteData - An array of meteorite data to be filtered.
  * @param {integer} minYear - The minimum year for filtering meteorites based on their fall year.
  * @param {number} maxYear - The maximum year for filtering meteorites based on their fall year.
  * @param {number} minMass - The minimum mass for filtering meteorites based on their mass.
