@@ -22,7 +22,7 @@
 .bottom-filters-text p {
   flex: 1;
   margin: 0;
-  font-size: 10px;
+  font-size: 20px;
 }
 
 .search-filter {
@@ -60,4 +60,12 @@
 
 .bottom-filters label,.bottom-filters p {
   font-size: 10px;
+}
+
+.search-btn {
+  text-align: center;
+}
+
+.error-box{
+  color: red;
 }

@@ -6,7 +6,7 @@ import { BiDislike, BiLike, BiSolidDislike, BiSolidLike } from 'react-icons/bi';
 import { useState, useEffect } from 'react';
 import './Card.css';
 
-function Rating({userId, handleRating, meteor}) {
+function Rating({meteor}) {
 
   const [likes, setLikes] = useState({
     likes: 0,
@@ -14,13 +14,6 @@ function Rating({userId, handleRating, meteor}) {
     userLiked: false,
     userDisliked: false
   });
-
-  useEffect(() => {
-
-    // Fetch the likes dislikes and such from the api using the userid
-    
-
-  }, []);
 
   function ButtonClick(e, rating) {
 
@@ -74,12 +67,12 @@ function Rating({userId, handleRating, meteor}) {
   );
 }
 
-function Card({userId, handleRating, meteor, handleMeteoriteZoom}){
+function Card({meteor, handleMeteoriteZoom}){
   return(
     <div className="card-div" onClick={handleMeteoriteZoom}>
       <div className="top-sec">
         <p className="meteorite-title">{meteor.name} - {meteor.year}</p>
-        <Rating userId={userId} handleRating={handleRating} meteor={meteor}/>
+        <Rating meteor={meteor}/>
       </div>
       
       <hr></hr>
@@ -96,7 +89,7 @@ function Card({userId, handleRating, meteor, handleMeteoriteZoom}){
         <div className="info-div">
           <p className="info-title"> Location <CiLocationOn/></p>
           <p className="info"> 
-            {meteor.geolocation.coordinates[0]}&deg; {meteor.geolocation.coordinates[1]}&deg;
+            {meteor.geolocation.coordinates[1]}&deg; {meteor.geolocation.coordinates[0]}&deg;
             {' '}{countryCoder.emojiFlag(meteor.geolocation.coordinates)}
           </p>
         </div>

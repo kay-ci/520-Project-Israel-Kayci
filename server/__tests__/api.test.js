@@ -12,7 +12,7 @@ const mockReadAll = jest.spyOn(db.prototype, 'readAllCache');
 mockReadAll.mockResolvedValue(mockData);
 
 describe('GET meteorites/', () => {
-  test('Response with no parameters', async () => {
+  test('200 Response with no parameters', async () => {
     const response = await request(app).get('/meteorites/');
 
     expect(response.status).toEqual(200);
@@ -25,7 +25,7 @@ describe('GET meteorites/', () => {
     });
   });
 
-  test('Response with query parameters', async () => {
+  test('200 Response with query parameters', async () => {
     const response = await request(app).
       get('/meteorites/?minYear=1800&maxYear=2023&minMass=0&maxMass=1000');
     
@@ -45,7 +45,7 @@ describe('GET meteorites/', () => {
   });
 
   describe('Year query tests', () => {
-    test('Response with invalid year range', async () => {
+    test('400 Response with invalid year range', async () => {
       const ExpectedBody = {
         'status':400,
         'message': 'Invalid year range'
@@ -58,7 +58,7 @@ describe('GET meteorites/', () => {
       expect(response.body).toEqual(ExpectedBody);  
     });
   
-    test('Response with invalid year input', async () => {
+    test('400 Response with invalid year input', async () => {
       const ExpectedBody = {
         'status':400,
         'message': 'Invalid year range'
@@ -73,7 +73,7 @@ describe('GET meteorites/', () => {
   });
   
   describe('Mass query tests', () => {
-    test('Response with invalid mass range', async () => {
+    test('400 Response with invalid mass range', async () => {
       // Invalid request since the min mass is greater than max mass
       const response = await request(app).get('/meteorites/?minMass=2000&maxMass=10');
   
@@ -86,7 +86,7 @@ describe('GET meteorites/', () => {
       expect(response.body).toEqual(ExpectedBody);
     });
   
-    test('Response with invalid mass input', async () => {
+    test('400 Response with invalid mass input', async () => {
       const ExpectedBody = {
         'status':400,
         'message': 'Invalid mass range'
@@ -97,6 +97,61 @@ describe('GET meteorites/', () => {
   
       expect(responseNaN.status).toEqual(400);
       expect(responseNaN.body).toEqual(ExpectedBody);
+    });
+
+    test('404 Page not found request', async () => {
+      const response = await request(app).get('/meteorites/?page=20000');
+  
+      expect(response.status).toEqual(404);
+      expect(response.body).toEqual({
+        status: 404, 
+        message: `Page not found`
+      });
+    });
+  });
+});
+
+describe('GET meteorites/on-latitudes', () => {
+  test('200 GET request', async () => {
+    const response = await request(app).get('/meteorites/on-latitudes');
+
+    expect(response.status).toEqual(200);
+    expect(response.body.data).toEqual([
+      {
+        id: '30409',
+        name: 'Zinder',
+        class: 'Pallasite, ungrouped',
+        mass: '46',
+        year: '1999',
+        geolocation: { type: 'Point', coordinates: ['8.96667', '-25.5'] }
+      },
+      {
+        id: '31357',
+        name: 'Zubkovsky',
+        class: 'L6',
+        mass: '432',
+        year: '2003',
+        geolocation: { type: 'Point', coordinates: ['41.5046', '90.2'] }
+      },
+      {
+        id: '31357',
+        name: 'Zubkovsky',
+        class: 'L6',
+        mass: '999',
+        year: '2003',
+        geolocation: { type: 'Point', coordinates: ['41.5046', '92'] }
+      },
+    ]);
+    expect(response.body.data.length).toEqual(3);
+  });
+
+  test('404 Page not found request', async () => {
+    const response = await request(app).get('/meteorites/on-latitudes?page=200');
+
+    expect(response.status).toEqual(404);
+    expect(response.body).toEqual({
+      status: 404, 
+      message: `Page not found`
     });
   });
 });

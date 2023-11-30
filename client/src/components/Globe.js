@@ -1,7 +1,36 @@
 import { Viewer, Entity, CameraFlyTo } from 'resium';
-import { Cartesian3, LabelStyle, VerticalOrigin } from 'cesium';
+import { Cartesian3, LabelStyle, VerticalOrigin, Color } from 'cesium';
 
-function Globe({meteors, FlyToProps}){
+function Globe({meteors, FlyToProps, showLatitude}){
+  
+
+  /**
+   * Sets points along the latitude to create polyline
+   * @author Kayci Davila
+   * @param latitude float 
+   */
+  function latitudeLineMaker(latitude){
+    let longitude = -180;
+    const pos = [];
+    for (var i = 0; i < 361; i++) {
+      pos.push(Cartesian3.fromDegrees(longitude, latitude));
+      longitude++;
+    }
+    return pos;
+  }
+  
+  
+  const northPole = latitudeLineMaker(90);
+  const arcticCirlce = latitudeLineMaker(66.5);
+  const tropicCancer = latitudeLineMaker(23.5);
+  const equator = latitudeLineMaker(0);
+  const tropicCapricorn = latitudeLineMaker(-23.5);
+  const antarcticCircle = latitudeLineMaker(-66.5);
+  const southPole = latitudeLineMaker(-90);
+
+  const majorLatitudeLines = [];
+  majorLatitudeLines.push(
+    northPole, arcticCirlce, tropicCancer, equator, tropicCapricorn, antarcticCircle, southPole);
 
   return (
     <div className="globe-div">
@@ -22,6 +51,22 @@ function Globe({meteors, FlyToProps}){
               pixelOffset: new Cartesian3(0, -9),
             }}
           />)}
+        {showLatitude && 
+          majorLatitudeLines.map((line, index) => {
+            return(
+              <Entity
+                key = {index}
+                polyline = {{
+                  followSurface: false,
+                  width: 3,
+                  material: Color.PURPLE,
+                  positions: line}
+                }
+                
+              />
+            );
+          })
+        }
       </Viewer>
     </div>
   );

@@ -13,7 +13,7 @@ export function isEmpty(value) {
   return value === null;
 }
 
-function Results( { userId, handleRating, searchFilter, meteors, handleMeteoriteZoom } ){
+function Results( {searchFilter, meteors, handleMeteoriteZoom } ){
 
   if (meteors.length > 0){
     return(
@@ -33,13 +33,11 @@ function Results( { userId, handleRating, searchFilter, meteors, handleMeteorite
             
         }).map(meteor => 
           <Card
-            userId={userId}
             key={meteor.name} 
             meteor={meteor}
             handleMeteoriteZoom={()=>{
               handleMeteoriteZoom(meteor);
             }}
-            handleRating={handleRating}
           />
         )}
       </div>
