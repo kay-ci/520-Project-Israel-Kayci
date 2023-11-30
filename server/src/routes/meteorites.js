@@ -3,6 +3,46 @@ const router = express.Router();
 const DB = require('../db/db');
 const db = new DB();
 const { paginate } = require('../utils/pagination.js');
+const countryCoder = require('country-coder');
+
+let countryCache = [];
+let emojiCache = [];
+
+/**
+ * Get the countries that our data is in.
+ * @author Israel Aristide
+ * @returns 
+ */
+function getCountryCache(data) {
+  if (countryCache.length === 0) {
+    countryCache = data.map(x => {
+      return countryCoder.iso1A2Code(x.geolocation.coordinates);
+    }).filter((value, index, array) => {
+      return array.indexOf(value) === index;
+    });
+  }
+
+  return countryCache;
+}
+
+/**
+ * Get the countries that our data is in as emojis
+ * @author Israel Aristide
+ * @param {*} data 
+ * @returns 
+ */
+function getEmojiCache(data) {
+
+  if (emojiCache.length === 0) {
+    emojiCache = data.map(x => {
+      return countryCoder.emojiFlag(x.geolocation.coordinates);
+    }).filter((value, index, array) => {
+      return array.indexOf(value) === index;
+    });
+  }
+
+  return emojiCache;
+}
 
 /**
  * @swagger
@@ -248,10 +288,48 @@ router.get('/on-latitudes', async (req, res) => {
   }
 });
 
+router.get('/country/:country', async (req, res) => {
 
-router.post('/:meteorite/rate', (req, res) => {
-  // To Implement
-  res.send('POST request to the homepage');
+  const meteoriteData = await db.readAllCache();
+  const countries = getCountryCache(meteoriteData);
+  let filteredData = [];
+  const page = parseInt(req.query.page ? req.query.page : 1);
+
+  if (countries.includes(req.params.country)) {
+    
+    filteredData = meteoriteData.filter(x=> {
+      return countryCoder.iso1A2Code(x.geolocation.coordinates) === req.params.country;
+    });
+
+  }
+
+  const paginated = paginate(filteredData, 7, page);
+
+  return res.json({
+    status: 200,
+    page: page,
+    pages: paginated.pages,
+    data: paginated.page
+  });
+
+});
+
+router.get('/countries', async (req, res) => {
+  const meteoriteData = await db.readAllCache();
+  const emojis = getEmojiCache(meteoriteData);
+  const countries = getCountryCache(meteoriteData);
+  let data = {};
+
+  countries.map((item, indx) => {
+    const obj = {};
+    obj[emojis[indx]] = item;
+    data = {...data, ...obj};
+  });
+
+  return res.json({
+    status: 200,
+    data: data
+  });
 });
 
 router.use((req, res) => {
@@ -276,7 +354,7 @@ function nearLatitude(meteor, latitude){
 /**
  * Filter through meteorite data. checks if a query parameter is provided.
  * @author Kayci Davila
- *  @param {Array} meteoriteData - An array of meteorite data to be filtered.
+ * @param {Array} meteoriteData - An array of meteorite data to be filtered.
  * @param {integer} minYear - The minimum year for filtering meteorites based on their fall year.
  * @param {number} maxYear - The maximum year for filtering meteorites based on their fall year.
  * @param {number} minMass - The minimum mass for filtering meteorites based on their mass.
