@@ -31,7 +31,16 @@ was no performance improvement, explain why that might be the case -->
 
 ### <!-- Change 1 -->
 
-Lead: <!-- name main contributor to this change -->
+Lead: Israel Aristide
+
+### The problem
+When going through the meteors present on your own country, the fetches always take over 400ms and it makes things feels sluggish. 
+![before](./img/prob1before.png)
+
+### The solution
+Caching! In the server i implemented a cache for the meteorites in a given country, this reduced the time to fetch after the first time significantly.
+
+![after](./img/prob1after.png)
 
 ...
 

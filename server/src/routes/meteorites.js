@@ -3,7 +3,7 @@ const router = express.Router();
 const DB = require('../db/db');
 const db = new DB();
 const { paginate } = require('../utils/pagination.js');
-const countryCoder = require('country-coder');
+const countryCoder = require('@rapideditor/country-coder');
 
 let countryCache = [];
 let emojiCache = [];
@@ -44,6 +44,16 @@ function getEmojiCache(data) {
   }
 
   return emojiCache;
+}
+
+const meteorsByCountry = {};
+function getMeteorsByCountry(data, country) {
+  if (!Object.keys(meteorsByCountry).includes(country)) {
+    meteorsByCountry[country] = data.filter(x=> {
+      return countryCoder.iso1A2Code(x.geolocation.coordinates) === country;
+    });
+  }
+  return meteorsByCountry[country];
 }
 
 /**
@@ -530,9 +540,7 @@ router.get('/country/:country', async (req, res) => {
 
     if (countries.includes(req.params.country)) {
       
-      filteredData = meteoriteData.filter(x=> {
-        return countryCoder.iso1A2Code(x.geolocation.coordinates) === req.params.country;
-      });
+      filteredData = getMeteorsByCountry(meteoriteData, req.params.country);
 
     } else {
       res.status(404).json({status:404, message: 'Country not found'});
@@ -610,6 +618,7 @@ router.get('/country/:country', async (req, res) => {
  */
 router.get('/countries', async (req, res) => {
   try {
+
     const meteoriteData = await db.readAllCache();
     const emojis = getEmojiCache(meteoriteData);
     const countries = getCountryCache(meteoriteData);
@@ -646,7 +655,6 @@ router.use((req, res) => {
  * @returns {boolean} Returns true if the meteor is near the specified latitude, otherwise false.
  */
 function nearLatitude(meteor, latitude){
-
   const latitudeRange = 2;
   return Math.abs(parseFloat(meteor.geolocation.coordinates[1] - latitude)) <= latitudeRange;
 }
