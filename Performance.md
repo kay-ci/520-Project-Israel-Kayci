@@ -37,6 +37,16 @@ Lead: Kayci
 I used memo from react to make sure the Globe component only re-render if the props have changed because the library resium
 is the one that caused us to have such a low performance grade in the lighthouse report (49). Unfortunetly it didn't any performance improvements 
 because I do not really have access to the Resium resources so I can cache. The constant download of resource images is what would have been needed to improve the resource fetching rather than using memo to reduce rendering and therefore image resources.
+Lead: Israel Aristide
+
+### The problem
+When going through the meteors present on your own country, the fetches always take over 400ms and it makes things feels sluggish. 
+![before](./img/prob1before.png)
+
+### The solution
+Caching! In the server i implemented a cache for the meteorites in a given country, this reduced the time to fetch after the first time significantly.
+
+![after](./img/prob1after.png)
 
 ## Conclusion
 
