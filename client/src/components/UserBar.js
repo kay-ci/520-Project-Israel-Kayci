@@ -136,6 +136,12 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
 
     lastQuery.current.page = params.page;
 
+    if (showLatitude){
+      setMeteors({data:[], page:0, pages:0});
+      setShowLatitude(!showLatitude);
+      return;
+    }
+
     fetch(`/meteorites/on-latitudes?page=${params.page}`).then(response => {
 
       if (response.ok){
@@ -146,6 +152,7 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
       return Promise.reject('Could not fetch meteorites');
     }).then(json => {
       setMeteors(json);
+      setShowLatitude(!showLatitude);
     });
   }
 
@@ -160,7 +167,6 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
       <button 
         onClick={() => {
           fetchMeteoritesOnLat({page: 1}); 
-          setShowLatitude(!showLatitude);
           homeView();
         }} 
         className="latitude-button">View Meteorites Near Major Latitudes</button>
