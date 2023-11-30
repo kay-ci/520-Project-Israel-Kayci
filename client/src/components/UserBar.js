@@ -134,8 +134,6 @@ function UserBar( {meteors, setMeteors, setFlyToProps, showLatitude, setShowLati
       // Display error to user
       errorBox.textContent = error.message;
     });
-    
-
   }
 
   /**
