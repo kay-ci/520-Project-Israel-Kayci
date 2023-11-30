@@ -140,6 +140,7 @@ function FilterBar({ setSearchFilter, sendQuery, setShowLatitude, homeView}){
         }}>Search</button>
       </div>
 
+      <div className="error-box"></div>
     </div>
   );
 

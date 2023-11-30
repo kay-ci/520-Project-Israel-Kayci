@@ -93,6 +93,7 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
   function sendQuery(params) {
     
     lastQuery.current = params;
+    const errorBox = document.querySelector('.error-box');
 
     fetch(
       `/meteorites?minYear=${params.minYear}&maxYear=${params.maxYear}` + 
@@ -100,14 +101,25 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
     ).then(res => {
       
       if (res.ok) {
+        errorBox.textContent = '';
         return res.json();
-      } 
+      }else{
+        return res.json().then((errorRes)=>{
 
-      return Promise.reject('Could not fetch meteorites');
+          // Remove any previously displayed meteors
+          setMeteors({data:[], page:0, pages:0});
+          throw new Error(errorRes.message);
+        });
+      } 
 
     }).then(json => {
       setMeteors(json);
+
+    }).catch(error => {
+      // Display error to user
+      errorBox.textContent = error.message;
     });
+    
 
   }
 
@@ -127,6 +139,7 @@ function UserBar( { userId, meteors, setMeteors, setFlyToProps, showLatitude, se
     fetch(`/meteorites/on-latitudes?page=${params.page}`).then(response => {
 
       if (response.ok){
+        document.querySelector('.error-box').textContent = '';
         return response.json();
       }
 

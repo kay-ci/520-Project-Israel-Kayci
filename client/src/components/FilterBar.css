@@ -61,3 +61,11 @@
 .bottom-filters label,.bottom-filters p {
   font-size: 10px;
 }
+
+.search-btn {
+  text-align: center;
+}
+
+.error-box{
+  color: red;
+}
