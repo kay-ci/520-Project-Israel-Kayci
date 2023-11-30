@@ -29,11 +29,18 @@ function UserBar( {meteors, setMeteors, setFlyToProps, showLatitude, setShowLati
    */
   function homeView () {
 
-    setFlyToProps({
+    setTimeout(() => {
+      console.log(meteors[0]);
+      const degs = showCountryMeteors.current ? 
+        Cartesian3.fromDegrees(meteors[0].coordinates[0], meteors[0].coordinates[1], 127000) : 
+        Cartesian3.fromDegrees(0, 0, 25000000);
 
-      destination: Cartesian3.fromDegrees(0, 0, 25000000),
-      duration: 5,
-    });
+      setFlyToProps({
+        destination: degs,
+        duration: 5,
+      });
+    }, 3000);
+
   };
 
   // We want to keep track of this but not necesarily re-render when it's changed
@@ -146,30 +153,49 @@ function UserBar( {meteors, setMeteors, setFlyToProps, showLatitude, setShowLati
   function fetchMeteoritesOnLat(params){
 
     lastQuery.current.page = params.page;
-
+    const errorBox = document.querySelector('.error-box');
     fetch(`/meteorites/on-latitudes?page=${params.page}`).then(response => {
 
       if (response.ok){
-        document.querySelector('.error-box').textContent = '';
+        errorBox.textContent = '';
         return response.json();
-      }
-
-      return Promise.reject('Could not fetch meteorites');
+      } else {
+        return response.json().then((errorRes)=>{
+          // Remove any previously displayed meteors
+          setMeteors({data:[], page:0, pages:0});
+          throw new Error(errorRes.message);
+        });
+      } 
     }).then(json => {
       setMeteors(json);
+    }).catch(err => {
+      errorBox.textContent = err.message;
     });
   }
 
+  /**
+   * Fetches meteorites by the currently selected country.
+   * @author Israel Aristide
+   * @param {*} params 
+   */
   function fetchMeteoritesByCountry(params) {
     lastQuery.current.page = params.page;
+    const errorBox = document.querySelector('.error-box');
     fetch(
       `/meteorites/country/${localStorage.getItem('country')}?page=${params.page}`).then(res => {
       if (res.ok) {
         return res.json();
-      }
-      return Promise.reject('Could not fetch meteorites by country');
+      } else {
+        return res.json().then((errorRes)=>{
+          // Remove any previously displayed meteors
+          setMeteors({data:[], page:0, pages:0});
+          throw new Error(errorRes.message);
+        });
+      } 
     }).then(json => {
       setMeteors(json);
+    }).catch(err => {
+      errorBox.textContent = err.message;
     });
   }
 
@@ -179,6 +205,9 @@ function UserBar( {meteors, setMeteors, setFlyToProps, showLatitude, setShowLati
         setSearchFilter={setSearchFilter} 
         sendQuery={sendQuery} 
         setShowLatitude={setShowLatitude}
+        setCountryMeteors={(val) => {
+          showCountryMeteors.current = val;
+        }}
         homeView={homeView}
       />
       <div className="user-bar-extras">
