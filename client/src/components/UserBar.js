@@ -17,9 +17,9 @@ function UserBar( {meteors, setMeteors, setFlyToProps, showLatitude, setShowLati
       destination: Cartesian3.fromDegrees(
         parseFloat(meteorite.geolocation.coordinates[0]), 
         parseFloat(meteorite.geolocation.coordinates[1]), 
-        300
-      ),
-      duration: 5,
+        showCountryMeteors.current ? 7000000 : 70000
+      ),  
+      duration: 1,
     });
   };
 
@@ -29,11 +29,15 @@ function UserBar( {meteors, setMeteors, setFlyToProps, showLatitude, setShowLati
    */
   function homeView () {
 
-    setFlyToProps({
+    if (showCountryMeteors.current) {
+      return;
+    }
 
+    setFlyToProps({
       destination: Cartesian3.fromDegrees(0, 0, 25000000),
-      duration: 5,
+      duration: 1,
     });
+
   };
 
   // We want to keep track of this but not necesarily re-render when it's changed
@@ -57,7 +61,7 @@ function UserBar( {meteors, setMeteors, setFlyToProps, showLatitude, setShowLati
   function nextPage() {
     const queryParams = {...lastQuery.current, page:lastQuery.current.page + 1};
 
-    if (showLatitude){
+    if (showLatitude) {
       fetchMeteoritesOnLat(queryParams);
       homeView();
       return;
@@ -144,37 +148,50 @@ function UserBar( {meteors, setMeteors, setFlyToProps, showLatitude, setShowLati
   function fetchMeteoritesOnLat(params){
 
     lastQuery.current.page = params.page;
-
-    if (showLatitude){
-      setMeteors({data:[], page:0, pages:0});
-      setShowLatitude(!showLatitude);
-      return;
-    }
+    const errorBox = document.querySelector('.error-box');
 
     fetch(`/meteorites/on-latitudes?page=${params.page}`).then(response => {
 
       if (response.ok){
-        document.querySelector('.error-box').textContent = '';
+        errorBox.textContent = '';
         return response.json();
-      }
-
-      return Promise.reject('Could not fetch meteorites');
+      } else {
+        return response.json().then((errorRes)=>{
+          // Remove any previously displayed meteors
+          setMeteors({data:[], page:0, pages:0});
+          throw new Error(errorRes.message);
+        });
+      } 
     }).then(json => {
       setMeteors(json);
-      setShowLatitude(!showLatitude);
+    }).catch(err => {
+      errorBox.textContent = err.message;
     });
   }
 
+  /**
+   * Fetches meteorites by the currently selected country.
+   * @author Israel Aristide
+   * @param {*} params 
+   */
   function fetchMeteoritesByCountry(params) {
     lastQuery.current.page = params.page;
+    const errorBox = document.querySelector('.error-box');
     fetch(
       `/meteorites/country/${localStorage.getItem('country')}?page=${params.page}`).then(res => {
       if (res.ok) {
         return res.json();
-      }
-      return Promise.reject('Could not fetch meteorites by country');
+      } else {
+        return res.json().then((errorRes)=>{
+          // Remove any previously displayed meteors
+          setMeteors({data:[], page:0, pages:0});
+          throw new Error(errorRes.message);
+        });
+      } 
     }).then(json => {
       setMeteors(json);
+    }).catch(err => {
+      errorBox.textContent = err.message;
     });
   }
 
@@ -184,19 +201,34 @@ function UserBar( {meteors, setMeteors, setFlyToProps, showLatitude, setShowLati
         setSearchFilter={setSearchFilter} 
         sendQuery={sendQuery} 
         setShowLatitude={setShowLatitude}
+        setCountryMeteors={(val) => {
+          showCountryMeteors.current = val;
+        }}
         homeView={homeView}
       />
       <div className="user-bar-extras">
         <button 
           onClick={() => {
-            fetchMeteoritesOnLat({page: 1}); 
+            if (!showLatitude) {
+              fetchMeteoritesOnLat({page: 1}); 
+            } else {
+              sendQuery(lastQuery.current);
+            }
+            
+            setShowLatitude(!showLatitude);
             showCountryMeteors.current = false;
             homeView();
           }} 
           className="extra-filter-button">View Meteorites Near Major Latitudes</button>
         <button 
           onClick={() => {
-            fetchMeteoritesByCountry({page: 1});
+
+            if (!showCountryMeteors.current) {
+              fetchMeteoritesByCountry({page: 1});
+            } else {
+              sendQuery(lastQuery.current);
+            }
+             
             setShowLatitude(false);
             showCountryMeteors.current = !showCountryMeteors.current;
             homeView();
