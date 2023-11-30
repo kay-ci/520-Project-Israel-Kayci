@@ -1,17 +1,39 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 
 function Footer(){
 
-  const [popup, setPopup] = useState(true);
+  const [popup, setPopup] = useState(!localStorage.getItem('visited'));
+  const [country, setCountry] = useState(
+    localStorage.getItem('country') ? 
+      localStorage.getItem('country') : 'CA');
+  const [countries, setCountries] = useState({'🇨🇦': 'CA'});
+
+  useEffect(() => {
+
+    fetch('/meteorites/countries').then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+    }).then(json => {
+      setCountries(json.data);
+    });
+
+    if (!localStorage.getItem('country')) {
+      localStorage.setItem('country', 'CA');
+    }
+
+    if (!localStorage.getItem('visited')) {
+      localStorage.setItem('visited', 'true');
+    }
+
+  }, []);
 
   return (
     <>
       <footer className="my-footer">
         <button className="foot-button" onClick={() => setPopup(!popup)}>?</button>
         <p>Israel Aristide - Kayci Davila 2023</p>
-        
-
       </footer>
 
       {popup && <section id="popup">
@@ -34,6 +56,23 @@ function Footer(){
                 NASA
             </a>
           </p>
+          <p>Please select your country</p>
+          <select
+            onChange = {(e) => {
+              setCountry(e.target.value);
+              localStorage.setItem('country', e.target.value);
+              window.location.reload();
+            }
+            }
+          >
+            {Object.keys(countries).map(x => {
+              if (country === countries[x]) {
+                return <option selected value={countries[x]}>{x}</option>;
+              }
+              return <option value={countries[x]}>{x}</option>;
+            })}
+          </select>
+
         </section>
       </section>}
     </>
