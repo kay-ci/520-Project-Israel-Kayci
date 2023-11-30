@@ -50,5 +50,6 @@ Lead: <!-- name main contributor to this change -->
 
 ## Conclusion
 
-<!-- Summarize which changes had the greatest impact, note any surprising results and list 2-3 main 
-things you learned from this experience. -->
+The first change absolutely had the greatest impact, a reducement from 400ms each fetch all the way down to 5ms at most. Although we do now understand the the library we chose for visualization is not the best when it comes to performance and load times. The app much less usable on slower internet connections because the library has to download so many images so often. Next time resium will not be the first choice. Another thing is that since the library uses 3D rendering, systems that do not support WEBGL will be unusable for this app.
+
+Another thing that was important for just the general feel of the app was to speed up the animations in the resium viewer. Even though it didnt change peformance, it helped with the User Experience and making it feel faster.
