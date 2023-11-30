@@ -21,7 +21,7 @@
   "dependencies": {
     "axios": "^1.6.0",
     "compression": "^1.7.4",
-    "country-coder": "^2.1.0",
+    "@rapideditor/country-coder": "^5.2.2",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "memory-cache": "^0.2.0",
