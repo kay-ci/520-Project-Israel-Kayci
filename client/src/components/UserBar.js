@@ -134,8 +134,6 @@ function UserBar( {meteors, setMeteors, setFlyToProps, showLatitude, setShowLati
       // Display error to user
       errorBox.textContent = error.message;
     });
-    
-
   }
 
   /**
@@ -147,6 +145,12 @@ function UserBar( {meteors, setMeteors, setFlyToProps, showLatitude, setShowLati
 
     lastQuery.current.page = params.page;
 
+    if (showLatitude){
+      setMeteors({data:[], page:0, pages:0});
+      setShowLatitude(!showLatitude);
+      return;
+    }
+
     fetch(`/meteorites/on-latitudes?page=${params.page}`).then(response => {
 
       if (response.ok){
@@ -157,6 +161,7 @@ function UserBar( {meteors, setMeteors, setFlyToProps, showLatitude, setShowLati
       return Promise.reject('Could not fetch meteorites');
     }).then(json => {
       setMeteors(json);
+      setShowLatitude(!showLatitude);
     });
   }
 
@@ -186,7 +191,6 @@ function UserBar( {meteors, setMeteors, setFlyToProps, showLatitude, setShowLati
           onClick={() => {
             fetchMeteoritesOnLat({page: 1}); 
             showCountryMeteors.current = false;
-            setShowLatitude(!showLatitude);
             homeView();
           }} 
           className="extra-filter-button">View Meteorites Near Major Latitudes</button>
