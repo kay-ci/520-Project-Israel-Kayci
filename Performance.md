@@ -23,21 +23,20 @@ While on the network tab and light house. A lot of resources are being requested
 While interacting I noticed that clicking next page in the "View meteorites in your country mode" is very slow.
 
 ## Areas to Improve
+- Resource fetching
+- Speed of next page clicks for next country
 
 ## Summary of Changes 
 
 <!-- Briefly describe each change and the impact it had one performance (be specific). If there
 was no performance improvement, explain why that might be the case -->
 
-### <!-- Change 1 -->
+### Cache initial Globe resources
 
-Lead: <!-- name main contributor to this change -->
-
-...
-
-### <!-- Change n -->
-
-Lead: <!-- name main contributor to this change -->
+Lead: Kayci
+I used memo from react to make sure the Globe component only re-render if the props have changed because the library resium
+is the one that caused us to have such a low performance grade in the lighthouse report (49). Unfortunetly it didn't any performance improvements 
+because I do not really have access to the Resium resources so I can cache. The constant download of resource images is what would have been needed to improve the resource fetching rather than using memo to reduce rendering and therefore image resources.
 
 ## Conclusion
 
