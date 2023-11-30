@@ -3,7 +3,7 @@ const router = express.Router();
 const DB = require('../db/db');
 const db = new DB();
 const { paginate } = require('../utils/pagination.js');
-const countryCoder = require('country-coder');
+const countryCoder = require('@rapideditor/country-coder');
 
 let countryCache = [];
 let emojiCache = [];
