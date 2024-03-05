@@ -40,3 +40,5 @@ networks:
 
 volumes:
   mongo_data:
+    external: true
+    name: ${DOCKER_VOLUME}
