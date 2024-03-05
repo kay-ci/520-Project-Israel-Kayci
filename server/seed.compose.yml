@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+
+  mongo_temp:
+    image: mongo:7.0
+    container_name: mongo_temp
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      - common-net
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh mongo_temp:27017/space --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  seed-process:
+    image: seeder
+    env_file:
+      - .env
+    build:
+      dockerfile: seed.Dockerfile
+    container_name: seeder
+    networks:
+      - common-net
+    depends_on:
+      mongo_temp:
+        condition: service_healthy
+
+networks:
+  common-net: {}
+
+volumes:
+  mongo_data:
